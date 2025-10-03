@@ -26,7 +26,9 @@ import Navigation from './components/Navigation';
 import FooterNav from './components/FooterNav';
 import SettingsPage from './components/SettingsPage';
 import ServiceTester from './components/ServiceTester';
+import ApiConnectionTest from './components/ApiConnectionTest';
 import { checkDatabaseStatus, logStartupInfo } from './services/dbStatusService';
+import './utils/apiDebug'; // Temporary debug import
 import authService from './services/authService';
 import { setTenant } from './services/tenantContext';
 import { debugTenantContext } from './services/tenantDebug';
@@ -155,7 +157,7 @@ function App() {
             />
             <div style={{ position: 'fixed', top: '10px', right: '10px' }}>
               <button
-                onClick={() => setScreen('test')}
+                onClick={() => setScreen('api-test')}
                 style={{
                   padding: '8px 16px',
                   backgroundColor: '#2196f3',
@@ -166,7 +168,7 @@ function App() {
                   fontSize: '12px'
                 }}
               >
-                🧪 Test API
+                🧪 Test AWS API
               </button>
             </div>
           </div>
@@ -208,6 +210,7 @@ function App() {
           />
         )}
         {screen === 'test' && <TestUnitMapping />}
+        {screen === 'api-test' && <ApiConnectionTest />}
         {screen === 'service-test' && <ServiceTester goTo={setScreen} />}
         {screen === 'map' && <MapStep1 goTo={setScreen} />}
         {screen === 'map1' && (

@@ -8,7 +8,7 @@ const APITester = ({ goTo }) => {
     const [selectedTenant, setSelectedTenant] = useState(null);
     const [tenants, setTenants] = useState([]);
 
-    const API_BASE = process.env.REACT_APP_API_URL || API_ORIGIN;
+    const API_BASE = process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api';
 
     // Test API endpoints
     const testEndpoints = [

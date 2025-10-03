@@ -11,7 +11,7 @@ export const useNotificationCount = () => {
       setIsLoading(true);
       
       // Check if API is available first
-      const healthCheck = await fetch('http://localhost:5001/api/health', { 
+      const healthCheck = await fetch(`${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}/health`, { 
         method: 'GET',
         signal: AbortSignal.timeout(5000) // 5 second timeout
       }).catch(() => null);
@@ -26,7 +26,7 @@ export const useNotificationCount = () => {
       const userId = 1; // TODO: Get from user context
       
       // Check if notifications endpoint exists by testing it
-      const notificationTest = await fetch(`http://localhost:5001/api/notifications/${businessId}?userId=${userId}&status=unread&limit=1`, {
+      const notificationTest = await fetch(`${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}/notifications/${businessId}?userId=${userId}&status=unread&limit=1`, {
         method: 'GET',
         signal: AbortSignal.timeout(3000)
       }).catch(() => null);

@@ -17,7 +17,7 @@ export default function MenuDisplay({ cart = [], setCart, onViewCart }) {
       
       console.log('🔄 Loading menu data directly from API...');
       
-      const response = await fetch('http://localhost:5001/api/menu/items', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}/menu/items`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

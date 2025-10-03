@@ -267,7 +267,7 @@ export default function Abc({ goTo }) {
       } catch (fetchError) {
         // Handle network/connection errors specifically
         if (fetchError.message && fetchError.message.includes('Cannot connect to server')) {
-          throw new Error('ERR_CONNECTION_REFUSED: Cannot connect to backend server at http://localhost:5001');
+          throw new Error(`ERR_CONNECTION_REFUSED: Cannot connect to backend server at ${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}`);
         }
         if (fetchError.name === 'AbortError') {
           console.log('ABC Analysis request was aborted');

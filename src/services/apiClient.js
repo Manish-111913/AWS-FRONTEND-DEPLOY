@@ -82,6 +82,13 @@ function normalizeBase(input) {
   if (!input) return undefined;
   let base = String(input).trim();
   if (!base) return undefined;
+  
+  // Handle malformed URLs that might just be "base"
+  if (base === 'base' || base.length < 8) {
+    console.warn('Invalid API URL detected:', base);
+    return undefined;
+  }
+  
   // remove trailing slashes
   base = base.replace(/\/+$/, '');
   if (/\/api$/i.test(base)) return base; // already '/api'
@@ -148,9 +155,34 @@ export const categorizeError = (error) => {
 };
 
 // Default to local API with /api prefix (backend runs on 5001 by default)
-export const API_BASE_URL = normalizeBase(process.env.REACT_APP_API_URL) || 'http://localhost:5001/api';
+export const API_BASE_URL = normalizeBase(process.env.REACT_APP_API_URL) || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api';
+
 // Origin without the /api suffix (useful for static assets served at root)
-export const API_ORIGIN = API_BASE_URL.replace(/\/?api$/i, '');
+// Safe replacement to prevent "base" errors
+const calculateOrigin = (baseUrl) => {
+  if (!baseUrl || typeof baseUrl !== 'string') {
+    return 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com';
+  }
+  
+  const result = baseUrl.replace(/\/?api$/i, '');
+  
+  // If the result is empty, too short, or just "base", use the fallback
+  if (!result || result.length < 8 || result === 'base') {
+    return 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com';
+  }
+  
+  return result;
+};
+
+export const API_ORIGIN = calculateOrigin(API_BASE_URL);
+
+// Debug logging for development
+if (process.env.NODE_ENV === 'development') {
+  console.log('🔗 API Configuration:');
+  console.log('  REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+  console.log('  API_BASE_URL:', API_BASE_URL);
+  console.log('  API_ORIGIN:', API_ORIGIN);
+}
 
 // Helper: build an absolute URL from a relative path
 export const buildUrl = (path = '') => {

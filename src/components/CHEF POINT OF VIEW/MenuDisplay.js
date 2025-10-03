@@ -160,7 +160,7 @@ export default function MenuDisplay({ cart = [], setCart, onViewCart }) {
             }}>
               {item.image_url ? (
                 <img 
-                  src={`http://localhost:5001${item.image_url}`}
+                  src={`https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com${item.image_url}`}
                   alt={item.name}
                   style={{
                     width: '100%',

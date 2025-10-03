@@ -31,7 +31,7 @@ const QRManagement = () => {
                 tableNumbers.push(i.toString());
             }
 
-            const response = await fetch('http://localhost:5001/api/qr/generate', {
+            const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}/qr/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const QRManagement = () => {
 
     const fetchQRCodes = async () => {
         try {
-            const response = await fetch(`http://localhost:5001/api/qr/list?businessId=1`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}/qr/list?businessId=1`);
             const data = await response.json();
             
             if (response.ok) {

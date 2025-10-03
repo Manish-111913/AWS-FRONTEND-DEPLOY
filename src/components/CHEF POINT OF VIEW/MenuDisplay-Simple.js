@@ -212,7 +212,7 @@ export default function MenuDisplay({ cart = [], setCart, onViewCart }) {
                   <div key={item.id} className="menu-item-card" style={{border: '1px solid #ddd', borderRadius: '12px', overflow: 'hidden', backgroundColor: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
                     <div className="item-image" style={{position: 'relative', height: '200px', backgroundColor: '#f5f5f5'}}>
                       <img 
-                        src={item.image_url ? `/api/images/by-name/${item.image_url.split('/').pop()}` : require('../../assets/placeholder-menu-item.png')}
+                        src={item.image_url ? `https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api/images/by-name/${item.image_url.split('/').pop()}` : require('../../assets/placeholder-menu-item.png')}
                         alt={item.name}
                         style={{
                           width: '100%',

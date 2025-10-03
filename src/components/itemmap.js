@@ -660,7 +660,7 @@ const RecipeListScreen = ({ goTo }) => {
       const formData = new FormData();
       formData.append('image', file);
 
-      const response = await fetch(`${process.env.REACT_APP_API_URL || API_ORIGIN}/api/ocr/process-image`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}/ocr/process-image`, {
         method: 'POST',
         body: formData
       });
@@ -1408,7 +1408,7 @@ const RecipeListScreen = ({ goTo }) => {
                     const formData = new FormData();
                     formData.append('image', file);
                     formData.append('scan_type', 'Menu');
-                    const response = await fetch(`${process.env.REACT_APP_API_URL || API_ORIGIN}/api/ocr/process-menu`, { method: 'POST', body: formData });
+                    const response = await fetch(`${process.env.REACT_APP_API_URL || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api'}/ocr/process-menu`, { method: 'POST', body: formData });
                     const data = await response.json();
                     if (data.success) {
                       const items = (data.data?.menu_items || []).map(x => ({ name: x.name || x, score: x.score || 1 }));
