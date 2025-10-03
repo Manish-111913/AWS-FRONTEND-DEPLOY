@@ -1,0 +1,195 @@
+/* Wastage Threshold Customization Interface (scoped with wt- prefix) */
+
+.wt-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px 16px 96px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #fff;
+}
+
+.wt-title-wrap {
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.wt-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.wt-toolbar {
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+
+.wt-toolbar-row2 {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+}
+
+.wt-select {
+  height: 40px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0 12px;
+  background: #fff;
+  font-weight: 600;
+}
+
+.wt-save {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #e9ecef;
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.wt-save.active {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+  cursor: pointer;
+}
+
+.wt-search {
+  position: relative;
+}
+
+.wt-search input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0 40px 0 14px;
+}
+
+.wt-filter-btn {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.wt-table-card {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 14px;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.wt-thead, .wt-row {
+  display: grid;
+  grid-template-columns: 70px 1fr 140px;
+  align-items: center;
+}
+
+.wt-thead {
+  background: #f9fafb;
+  color: #374151;
+  font-weight: 700;
+  /* Match row padding so grid columns line up perfectly */
+  padding: 12px;
+  border-bottom: 1px solid #ececec;
+}
+
+.wt-row {
+  padding: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Column alignment: center S. No., left Item, right Item Limit */
+.wt-thead > div:nth-child(1),
+.wt-row > div:nth-child(1) {
+  text-align: center;
+}
+
+.wt-thead > div:nth-child(2),
+.wt-row > div:nth-child(2) {
+  text-align: left;
+}
+
+.wt-thead > div:nth-child(3) {
+  text-align: right;
+}
+
+.wt-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.wt-item-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #f3f4f6;
+  border: 1px solid #eee;
+}
+
+.wt-item-name {
+  font-weight: 700;
+}
+
+.wt-limit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.wt-limit input {
+  width: 56px;
+  height: 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.wt-export {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 14px;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.wt-export button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  font-weight: 700;
+  color: #2563eb;
+  cursor: pointer;
+}

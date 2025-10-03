@@ -1,0 +1,43 @@
+.owner-footer-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: center;
+    height: 56px;
+    z-index: 110;
+    width: 100%;
+    max-width: 600px;
+}
+
+.owner-footer-item {
+    flex: 1;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: #9ca3af;
+    font-size: 12px;
+    transition: color .18s ease;
+}
+
+.owner-footer-item.active {
+    color: #111827;
+}
+
+.owner-footer-icon {
+    font-size: 20px;
+    transform: scale(var(--scale, 1));
+    transition: transform 120ms ease-out;
+}
+
+.owner-footer-item:hover {
+    color: #111827;
+}

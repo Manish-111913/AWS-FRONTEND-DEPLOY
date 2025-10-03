@@ -1,0 +1,422 @@
+/* Scoped variables for onboarding only */
+/* Use true black background to match Chef/Owner dark shells but keep variables isolated for onboarding */
+.qr-onboarding-root {
+    --bg: #1c1c1c;
+    --bg-2: #1a1a1a;
+    --bg-3: #23272f;
+    --text: #ffffff;
+    --muted: #9CA3AF;
+    --muted-2: #6B7280;
+    --accent: #F59E0B;
+    --danger: #EF4444;
+    --success: #10B981;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* Base layout */
+.qr-onboarding-root * {
+    box-sizing: border-box;
+}
+
+.qr-onboarding-root .qro-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.qr-onboarding-root .qro-header {
+    border-bottom: 1px solid #2a2a2a;
+    padding: 24px 0;
+    text-align: center;
+}
+
+.qr-onboarding-root .qro-logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 2px;
+}
+
+.qr-onboarding-root .qro-subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+/* Progress */
+.qr-onboarding-root .qro-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 24px 0;
+}
+
+.qr-onboarding-root .qro-progress .qro-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: var(--bg-2);
+    border: 2px solid #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-weight: 600;
+}
+
+.qr-onboarding-root .qro-progress .qro-dot.qro-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #1a1a1a;
+}
+
+.qr-onboarding-root .qro-progress .qro-line {
+    width: 40px;
+    height: 2px;
+    background: var(--bg-2);
+}
+
+.qr-onboarding-root .qro-progress .qro-line.qro-active {
+    background: var(--accent);
+}
+
+/* Content */
+.qr-onboarding-root .qro-content {
+    padding-bottom: 120px;
+}
+
+.qr-onboarding-root .qro-title {
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin: 8px 0 16px;
+}
+
+.qr-onboarding-root .qro-section {
+    margin-bottom: 32px;
+}
+
+.qr-onboarding-root .qro-card {
+    background: var(--bg-2);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* Controls */
+.qr-onboarding-root .qro-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    background: transparent;
+    color: var(--muted);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.qr-onboarding-root .qro-btn.qro-btn--primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #1a1a1a;
+}
+
+.qr-onboarding-root .qro-btn.qro-btn--danger {
+    background: transparent;
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.qr-onboarding-root .qro-btn.qro-btn--success {
+    background: var(--success);
+    border-color: var(--success);
+    color: #1a1a1a;
+}
+
+.qr-onboarding-root .qro-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.qr-onboarding-root .qro-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qr-onboarding-root .qro-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.qr-onboarding-root .qro-input {
+    width: 100%;
+    background: var(--bg-3);
+    border-radius: 8px;
+    border: 1px solid #374151;
+    color: #fff;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.qr-onboarding-root .qro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-3);
+    border-radius: 6px;
+    padding: 4px 8px;
+    color: var(--muted);
+}
+
+.qr-onboarding-root .qro-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.qr-onboarding-root .qro-chip {
+    background: var(--bg-2);
+    border: 1px solid #374151;
+    border-radius: 20px;
+    padding: 8px 12px;
+    color: #D1D5DB;
+}
+
+.qr-onboarding-root .qro-chip.qro-active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #1a1a1a;
+}
+
+.qr-onboarding-root .qro-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.qr-onboarding-root .qro-separator {
+    height: 1px;
+    background: #2a2a2a;
+    margin: 16px 0;
+}
+
+.qr-onboarding-root .qro-center {
+    text-align: center;
+}
+
+/* Bottom nav */
+.qr-onboarding-root .qro-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    border-top: 1px solid #2a2a2a;
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    gap: 16px;
+}
+
+.qr-onboarding-root .qro-flex-1 {
+    flex: 1;
+}
+
+/* Counters */
+.qr-onboarding-root .qro-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.qr-onboarding-root .qro-btn-round {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background: var(--bg-2);
+    border: 1px solid #374151;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.qr-onboarding-root .qro-display {
+    background: var(--bg-2);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* Tables */
+.qr-onboarding-root .qro-table-item {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 15px;
+}
+
+.qr-onboarding-root .qro-table-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.qr-onboarding-root .qro-table-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: var(--accent);
+    color: #1a1a1a;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-onboarding-root .qro-table-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+}
+
+.qr-onboarding-root .qro-best-spot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #374151;
+    color: var(--accent);
+    font-size: 12px;
+}
+
+/* Business model cards */
+.qr-onboarding-root .qro-model-card {
+    background: #2a2a2a;
+    border: 2px solid #374151;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.qr-onboarding-root .qro-model-card.qro-active {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.qr-onboarding-root .qro-model-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 8px;
+}
+
+.qr-onboarding-root .qro-model-desc {
+    font-size: 14px;
+    color: #9CA3AF;
+    margin: 0 0 12px;
+}
+
+.qr-onboarding-root .qro-model-card.qro-active .qro-model-title {
+    color: #1a1a1a;
+}
+
+.qr-onboarding-root .qro-model-card.qro-active .qro-model-desc {
+    color: #1a1a1a;
+}
+
+/* Toggle */
+.qr-onboarding-root .qro-toggle {
+    width: 48px;
+    height: 24px;
+    border-radius: 12px;
+    background: #374151;
+    position: relative;
+}
+
+.qr-onboarding-root .qro-toggle.qro-active {
+    background: var(--accent);
+}
+
+.qr-onboarding-root .qro-toggle .qro-knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: #fff;
+    transition: left .2s;
+}
+
+.qr-onboarding-root .qro-toggle.qro-active .qro-knob {
+    left: 26px;
+}
+
+/* Empty state */
+.qr-onboarding-root .qro-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 32px;
+    color: #9CA3AF;
+}
+
+/* Modal */
+.qr-onboarding-root .qro-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.qr-onboarding-root .qro-modal.qro-open {
+    display: flex;
+}
+
+.qr-onboarding-root .qro-modal-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+}
+
+.qr-onboarding-root .qro-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.qr-onboarding-root .qro-modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* QR box */
+.qr-onboarding-root #qr-box {
+    background: #fff;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+}

@@ -1,0 +1,189 @@
+Setting module in detail
+Notification Preferences: Module Settings
+1. Critical & Urgent Alerts
+These are high-priority alerts that are almost always vital for the business and will likely be turned on by default.
+* Low Stock & Reorder Alert:
+o Toggle: On/Off.
+o Description: Notifies you when an item's stock falls below its minimal reorder point.
+o Sub-setting: You can customize the threshold for this alert, e.g., "Alert me if stock drops to [X]% of the reorder point."
+* Inventory Discrepancy Alert:
+o Toggle: On/Off.
+o Description: Alerts you when a transaction results in a negative stock value.
+* Expiring Stock Alert:
+o Toggle: On/Off.
+o Description: Warns you when an item is nearing its expiration date.
+o Sub-setting: "Alert me when items are expiring within [Number] days."
+* Suspected Pilferage Flag:
+o Toggle: On/Off.
+o Description: A high-priority alert for unusual negative stock values that may indicate pilferage or a significant counting error.
+2. Performance & Trend Alerts
+These alerts are for business insights. The owner may want to adjust the thresholds to match their specific business needs.
+* High Wastage Alert:
+o Toggle: On/Off.
+o Description: Notifies you when the wastage for a single item is higher than normal.
+o Sub-setting: "Trigger alert if wastage for an item exceeds [Percentage] of its daily consumption."
+* Vendor Performance Alert:
+o Toggle: On/Off.
+o Description: Informs you when a vendor's lead time changes significantly.
+o Sub-setting: "Trigger alert for lead time changes greater than [Percentage]."
+* Cost Discrepancy Alert:
+o Toggle: On/Off.
+o Description: Alerts you when a new bill shows a significant price change for a known item.
+o Sub-setting: "Trigger alert for price changes greater than [Percentage]."
+* Unusual Sales Volume Alert:
+o Toggle: On/Off.
+o Description: Notifies you of a significant spike or drop in your daily sales volume compared to the average.
+o Sub-setting: "Trigger alert for sales volume changes greater than [Percentage]."
+3. Data & Setup Reminders
+These are for ensuring the data in the app is complete and up-to-date.
+* Daily Report Reminder:
+o Toggle: On/Off.
+o Description: Reminds you to submit your daily Stock Out report.
+o Sub-setting: "Send reminder at [Time]."
+* Incomplete Recipe Mapping:
+o Toggle: On/Off.
+o Description: Alerts you if a dish is used in a transaction but its recipe is not fully mapped.
+* Incomplete Vendor Details:
+o Toggle: On/Off.
+o Description: Reminds you to complete a vendor's profile after they have been added to the system.
+* Unit Not Recognized:
+o Toggle: On/Off.
+o Description: Flags when a new unit is used in a bill or recipe without a conversion being defined.
+4. Notification Channel Settings
+This section controls how and where the user receives these alerts.
+* In-App Alerts:
+o Toggle: On/Off.
+o Description: Display banners and pop-ups within the application.
+* Push Notifications:
+o Toggle: On/Off.
+o Description: Send notifications to your device when the app is closed.
+* Email Summaries:
+o Toggle: On/Off.
+o Description: Send a daily or weekly summary of all alerts and key performance indicators to your registered email address.
+
+
+((A Tiered, Customizable System
+Instead of a simple On/Off for everything, we can design the module with a tiered approach that gives the owner control while protecting them from making critical errors.
+1. Tier 1: Critical Alerts (Non-Negotiable)
+These are the notifications that are absolutely essential for preventing business-critical mistakes. The app's logic should not allow these to be turned off.
+* Examples: Inventory Discrepancy Alert (negative stock), Expiring Stock Alert (impending spoilage), Suspected Pilferage Flag.
+* User Experience: These toggles would be grayed out or have a padlock icon with a tooltip that says, "This is a critical alert and cannot be turned off."
+2. Tier 2: Important Alerts (Customizable with a Warning)
+These alerts are highly valuable for business performance, but an owner may have a specific reason for turning them off.
+* Examples: Low Stock & Reorder Alert, Vendor Performance Alert, High Wastage Alert.
+* User Experience: If an owner tries to turn one of these off, the app can display a pop-up warning: "Warning: Turning off this alert may result in missed reorder opportunities and potential stockouts. Are you sure you want to proceed?" This prevents accidental deactivation.
+3. Tier 3: Informational Alerts (Fully Customizable)
+These alerts are for informational purposes or summaries and can be turned off without any major business risk.
+* Examples: Daily Summary Alert, Monthly Report Ready, New Vendor Detected.
+* User Experience: A simple on/off toggle with no warnings or restrictions.))
+User and Access Management Logic
+This module is the central control panel for the owner, allowing them to delegate responsibilities while protecting sensitive business data.
+1. The Core Roles and Access Levels
+The app will have predefined roles, each with a specific set of permissions. This is the foundation of the entire module.
+* Owner:
+o Access: Full, unrestricted access to all modules, including Settings, Billing, User Management, and all financial reports.
+o Purpose: This role is for the main decision-makers and is the only one with the authority to add or remove other users and change the subscription plan.
+* Manager:
+o Access: Can view and interact with all operational modules like Stock In, Stock Out, Inventory, and All Reports. They can see financial data like sales and gross profit.
+o Restrictions: Cannot access Settings (User Management, Subscription), Billing, or the full Vendor Management details. They can view reports but cannot export or make changes to core settings.
+* Chef:
+o Access: Limited, task-based access. They can only use the Stock Out Usage module to record daily production and wastage. They might also have a read-only view of the Inventory to check stock levels.
+o Restrictions: Cannot see any financial data (sales, profit, costs). Cannot access Reports, Settings, or any Stock In information. This role is highly secure and prevents sensitive data from being shared.
+* Silent Partner :
+o Access: Read-only access to all reports and dashboards. They can see all financial data but cannot make any changes or access the operational modules.
+o Restrictions: Cannot interact with the app's core functions. They cannot add stock, record wastage, or change any settings.
+2. The Customization Logic (UI/UX)
+The user interface will be simple and clear, built around the subscription plan's limits.
+1. User List: A table that displays all current users, their roles, and their last login date. The owner can easily edit a user's role or remove them from the system.
+2. Add New User Button: A prominent button that opens a form. This is where the monetization "trick" is implemented.
+3. Add User Form:
+o Email: Field to enter the new user's email address.
+o Role: A dropdown menu to select the user's role (Owner, Manager, Chef). The roles available will depend on the subscription plan.
+4. Plan Status Bar: A visual bar at the top of the module that shows the current user count against the plan's limits.
+o Example (Basic Plan): Owners: 2/2, Managers: 1/1, Chefs: 1/1.
+3. The Monetization Logic (The Upgrade Trigger)
+This is where the business model you've proposed comes to life. The app uses the user count as a direct trigger to upsell the owner to the Growth plan.
+* Basic Plan: The system will enforce a hard limit on user roles, as you described: 2 Owners, 1 Manager, and 1 Chef.
+o When an owner tries to add a third owner or a second manager, the "Add New User" button becomes inactive.
+o A clear message will appear: "You have reached the maximum number of [Role Name] for your Basic Plan."
+o A prominent button will be displayed: "Upgrade to Growth Plan". This provides a direct path to upgrade.
+* Growth Plan: This plan will offer significantly expanded user access. For example: Up to 5 Owners, 5 Managers, 5 Chefs, and Unlimited Silent Partners.
+o This directly caters to the needs of medium and large businesses with multiple partners and departments.
+o Once a user has upgraded, the limits are removed, and they can add more users to their system. The Silent Partner role also becomes available in this plan, which is a powerful incentive for businesses with passive investors.
+Backend Logic and Enforcement
+On the backend, this is managed through Role-Based Access Control (RBAC).
+* Every user is assigned a role.
+* Every action in the app (e.g., updateInventory, viewReports, changeSubscription) is tied to a specific role.
+* Firestore Security Rules are used to enforce this. For example, a rule would say, allow write: if request.auth.uid is in [list of owners].
+Inventory management module 
+1. Units of Measurement
+This section, previously known as Unit Based Mapping, is where you establish all the conversion rates the app will use.
+* Logic: The user can create, edit, and delete unit conversion rules. Each rule consists of a Base Unit and a Conversion Unit with a defined Conversion Factor. For example, 1 Block = 500 Grams or 1 Case = 24 Packets. This module is the single source of truth for all unit conversions.
+* Impact: When a user enters a Stock In bill, the app will automatically convert the purchased unit into the item's primary inventory unit using these rules. Similarly, in a recipe, the app will convert the recipe unit to the inventory unit to accurately deduct stock. Without this, the app cannot perform any quantity calculations.
+
+2. Reorder Point Details
+This module allows you to fine-tune the core logic of the Minimal Stock calculation, which is the heart of the app's automation.
+* Logic: You can set a global or category-specific Safety Stock percentage. For example, setting the Safety Stock to 10% for the "Dairy" category means the app will automatically add 10% of the average daily consumption to the final reorder point for all dairy products. You can also manually override the calculated reorder point for a specific item if you prefer.
+* Impact: These settings directly influence the Minimal Stock module's calculations. By giving the user control over Safety Stock, you empower them to customize the app's automation to match their specific business needs and risk tolerance.
+
+3. Batch Tracking
+This feature is essential for businesses that deal with perishable goods, such as food outlets. It allows for the management of items with different expiry dates.
+* Logic: When you create or edit an item, you can enable a Batch Tracking toggle. When enabled, every new Stock In entry for that item will require an expiry date. The app will then track the total stock as a sum of all active batches. For example, you might have 10 kg of tomatoes expiring on Monday and 20 kg expiring on Thursday. The app will automatically deduct from the earliest expiring batch first.
+* Impact: This logic provides a powerful and automated "First-In, First-Out" (FIFO) system. It directly feeds the Expiry Warning Alert in the Overview module and the Automatic Wastage Notification by knowing precisely when to deduct expired stock from the inventory.
+
+4. Storage Locations
+This module provides a way to logically and physically organize your inventory, which is crucial for larger operations.
+* Logic: The user can define and name different storage locations (e.g., Walk-in Freezer, Dry Goods Shelf, Walk-in Fridge). Each item in the inventory can then be assigned a primary storage location.
+* Impact: This enhances inventory reports by allowing the user to filter stock by storage location. For example, a report can be generated showing all items in the Walk-in Freezer. It also simplifies physical stock counting by providing a clear, organized list.
+
+5. Inventory Categories
+Categories provide a layer of organization that is vital for reporting and filtering.
+* Logic: The user can create and manage an unlimited number of categories (e.g., Meat, Produce, Spices, Dairy). When a new item is added to the inventory, it must be assigned to one of these categories.
+* Impact: Categories are used throughout the app for filtering. On the Dashboard, you can filter reports by category. In Reports, you can generate an item-wise sales report for only the Produce category. This functionality provides a powerful way to analyze your business data and see trends within specific item types.
+Sales and menu management
+1. Menu Categories
+This module allows you to organize your entire menu for easy navigation and reporting.
+* Logic: The user can create, edit, and manage an unlimited number of menu categories (e.g., Snacks, Main Courses, Beverages, Desserts). When a user creates a new dish in the app, it must be assigned to one of these categories.
+* Impact: Categories are a foundational tool for the Reports module. For example, the owner can generate a sales report that shows total revenue for just the Beverages category, allowing them to analyze the performance of a specific menu section. The categories also simplify the Stock Out Usage module by allowing users to quickly filter and find the dish they are recording.
+2. Payment Methods
+This functionality allows the app to accurately track how customers are paying, which is a crucial part of financial reporting.
+* Logic: The user can define and name all the payment methods accepted by the business (e.g., Cash, Credit Card, UPI, Gift Card). When a daily Stock Out report is submitted, the user will be prompted to enter the total sales for each payment method.
+* Impact: This information is directly used in the Reports module. The owner can generate a report that shows total sales by payment method for a specific day, week, or month, which is essential for reconciliation and managing cash flow. It provides a quick and accurate way to match the app's sales data with the business's physical cash register and bank deposits.
+3. Localized Pricing
+This is an advanced feature that is a crucial for businesses that operate in multiple locations or countries.
+* Logic: This module is only available on the Growth Plan. When a new location is created, the owner can set the local currency for that branch. The app will then automatically display all pricing and financial data for that specific location in its local currency. The owner can also define location-specific pricing for a single dish. For example, a Coffee might cost $2 at Branch A but ?150 at Branch B.
+* Impact: This is a key monetization feature that adds significant value for multi-branch owners. It ensures that all reports are financially accurate and relevant to each location, eliminating the need for manual currency conversions.
+4. Tax Rates (To be Done Later)
+As you mentioned, this is a future functionality. The logic for this would involve:
+* Logic: The user would define the local tax rates (e.g., GST 18%). When a dish is created, the user can assign a tax rate to it. When a sale is recorded, the app would automatically calculate the total tax for the transaction.
+* Impact: This would allow the app to generate reports that show Sales with Tax, Sales without Tax, and a detailed Tax Report, simplifying the business's accounting and compliance. This functionality would also likely be tied to the Growth Plan for multi-location businesses with different tax requirements.
+Vendor and Procurement: Detailed Logic
+The Vendor and Procurement module in the Settings is the app's address book for suppliers. Its logic is designed to streamline ordering and ensure that vendor data is always accurate, which is critical for the Minimal Stock and Stock In modules.
+
+1. Manage Vendors
+This is the central hub for all vendor data.
+* Logic: The owner can add new vendors, edit existing ones, and archive vendors they no longer use. For each vendor, the app stores essential information such as:
+o Vendor Name: The primary identifier.
+o Contact Details: Phone, email, contact person.
+o Average Lead Time: The average number of days it takes for a delivery. This is a crucial data point that the Minimal Stock module uses to calculate the reorder point. This value can be manually entered or automatically calculated by the app based on the history of Stock In bills.
+o Default Payment Terms: The standard payment period for this vendor (e.g., "Net 30," "Cash on Delivery").
+* Impact: This module ensures that all vendor data is centralized and accessible. The Stock In module automatically pulls vendor names from here, and the Minimal Stock module uses the Average Lead Time to provide accurate reorder alerts.
+
+2. Default Payment Terms
+This is a global setting that standardizes the payment process for all new vendors.
+* Logic: The user can set a default payment term (e.g., Net 30) that will be automatically applied to any new vendor added to the system. This saves the owner from having to manually set the payment terms every time they add a new supplier.
+* Impact: This feature is for efficiency and consistency. It ensures that all new vendor records are complete from the start and that there is a standard payment term to reference for future accounting features.
+Wastage and production 
+1. Wastage Reasons
+This functionality provides a structured way to track why items are being wasted, which is essential for identifying and solving problems.
+* Logic: The user can define and manage a list of specific Wastage Reasons (e.g., Spoilage, Breakage, Over-Production, Employee Mistake, Expired). When a user records a Wastage event in the Stock Out module, they must select one of these predefined reasons from a dropdown menu.
+* Impact: This is a crucial data point for the app's analytics. The Wastage Report can be filtered and sorted by these reasons, allowing the owner to answer key questions like: "What percentage of my total wastage is due to spoilage?" or "Which day of the week do I have the most waste from over-production?" This provides the data needed to make operational changes, such as adjusting order quantities or improving employee training.
+
+2. Production Yield Tolerance
+This is an advanced but critical feature for businesses that rely on consistent portion sizes and recipes. It allows the app to detect if production is deviating from the standard.
+* Logic: For each dish in the Ingredient Based Mapping module, you can set a Production Yield Tolerance (e.g., 5%). When a chef records a Stock Out for a dish, the app's backend compares the recorded usage against the expected usage based on the recipe. For example, if a recipe calls for 100g of chicken, but the chef uses 120g, the app can flag this as being outside the 5% tolerance.
+* Impact: This feature is for quality control and cost management. It triggers an Unusual Usage Alert, which can be viewed in a dedicated report. This alert helps the owner identify if a chef is using too much of an expensive ingredient, or if a recipe needs to be updated. It prevents "creep" in food costs and ensures consistent portioning, which is key for maintaining profitability and customer satisfaction.
+
+
+
+

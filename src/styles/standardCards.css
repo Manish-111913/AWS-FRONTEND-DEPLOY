@@ -1,0 +1,232 @@
+/* ========================================
+   STANDARD CARD SYSTEM - Based on Dashboard Action Cards
+   ======================================== */
+
+/* CSS Variables for consistency */
+:root {
+  --card-bg: #ffffff;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --card-border-radius: 0.5rem;
+  --card-padding: 1rem;
+  --card-transition: transform 0.2s ease, box-shadow 0.2s ease;
+  --text-primary: #1f2937;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+}
+
+/* Base Standard Card */
+.standard-card {
+  background: var(--card-bg);
+  padding: var(--card-padding);
+  border-radius: var(--card-border-radius) !important;
+  box-shadow: var(--card-shadow);
+  transition: var(--card-transition);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Hover Effect (optional) */
+.standard-card--hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Clickable Cards */
+.standard-card[onclick],
+.standard-card.clickable {
+  cursor: pointer;
+}
+
+/* ========================================
+   CARD VARIANTS
+   ======================================== */
+
+/* Default Card - General purpose */
+.standard-card--default {
+  justify-content: space-between;
+}
+
+/* Action Card - Dashboard-style action buttons */
+.standard-card--action {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.standard-action-card__icon {
+  margin-bottom: 0.5rem;
+}
+
+.standard-action-card__icon > svg {
+  height: 2rem;
+  width: 2rem;
+}
+
+.standard-action-card__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Info Card - Data display cards */
+.standard-card--info {
+  justify-content: space-between;
+}
+
+.standard-info-card__subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0 0 0.25rem 0;
+}
+
+.standard-info-card__value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0.25rem 0;
+}
+
+.standard-info-card__trend {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+.standard-info-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem 0;
+}
+
+/* Data Card - Content-heavy cards */
+.standard-card--data {
+  padding: 0;
+}
+
+.standard-data-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--card-padding);
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 0;
+}
+
+.standard-data-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.standard-data-card__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.standard-data-card__content {
+  padding: var(--card-padding);
+  flex: 1;
+}
+
+/* ========================================
+   LEGACY COMPATIBILITY CLASSES
+   ======================================== */
+
+/* Apply standard card styling to existing card classes */
+.card,
+.action-card,
+.usage-item-card,
+.dish-card,
+.item-card,
+.vm-kpi-card,
+.vm-vendor-card,
+.notification-item-card,
+.cr-low-stock-card,
+.cr-vendor-card,
+.cr-order-item-card,
+.cr-summary-card,
+.stock-item-card,
+.item-sales-card,
+.performance-summary-card,
+.raw-material-stock-card,
+.insights-card,
+.analytics-card,
+.consumption-card,
+.wastage-card,
+.date-selector-card {
+  background: var(--card-bg) !important;
+  border-radius: var(--card-border-radius) !important;
+  box-shadow: var(--card-shadow) !important;
+  transition: var(--card-transition) !important;
+  box-sizing: border-box !important;
+}
+
+/* Apply hover to legacy cards that should be interactive */
+.action-card:hover,
+.dish-card:hover,
+.item-card:hover,
+.vm-vendor-card:hover,
+.notification-item-card:hover,
+.cr-vendor-card:hover,
+.cr-order-item-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: var(--card-shadow-hover) !important;
+}
+
+/* Ensure clickable cards have cursor pointer */
+.action-card,
+.dish-card[onclick],
+.item-card[onclick],
+.vm-vendor-card,
+.notification-item-card,
+.cr-vendor-card,
+.cr-order-item-card {
+  cursor: pointer !important;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  .standard-card {
+    padding: 0.875rem;
+  }
+  
+  .standard-data-card__header,
+  .standard-data-card__content {
+    padding: 0.875rem;
+  }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.standard-card--no-hover {
+  transform: none !important;
+}
+
+.standard-card--no-hover:hover {
+  transform: none !important;
+  box-shadow: var(--card-shadow) !important;
+}
+
+.standard-card--elevated {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.standard-card--flat {
+  box-shadow: none !important;
+  border: 1px solid #e5e7eb !important;
+}

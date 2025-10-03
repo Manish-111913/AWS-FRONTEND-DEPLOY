@@ -1,0 +1,1074 @@
+ .confirm-actions .cancel-btn,
+ .confirm-actions .confirm-btn-final {
+  width: 150px !important;
+  min-width: 150px !important;
+  max-width: 150px !important;
+  height: 44px !important;
+  padding: 12px 16px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  display: inline-block !important;
+  border-radius: 8px !important;
+  border: 1px solid !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  font-family: 'Poppins', sans-serif !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+/* Bold left-side labels in confirm modal */
+.confirm-modal .confirm-label {
+  font-weight: 700;
+  color: #212529;
+}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.stock-out-container {
+  background-color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.stock-out-container body {
+  background-color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.stock-out-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 580px;
+  margin: 40px auto 0 auto;
+  border-radius: 16px;
+
+}
+
+.waste-subheader {
+  display: flex;
+  background-color: #f0f3f6;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 8px;
+  height: 2.8rem;
+
+}
+
+/* New unified tab styles */
+.stock-tabs .tab-btn {
+  background: none;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #6c757d;
+  cursor: pointer;
+  transition: background-color .2s, color .2s;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stock-tabs .tab-btn.active {
+  background-color: #212529;
+  color: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.stock-tabs .tab-btn:focus-visible {
+  outline: 2px solid #212529;
+  outline-offset: 2px;
+}
+
+.waste-subheader button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  background: none;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  color: #000000;
+  transition: all 0.2s ease-in-out;
+}
+
+.waste-subheader button.active {
+  background-color: #212529; /* Black background for active */
+  color: #FFFFFF; /* White text for active */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.stock-out-page .form-label-main {
+  display: block;
+  font-size: 1rem;
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #212529;
+  margin-bottom: 10px;
+}
+
+/* Recipe cost display styles */
+.recipe-cost-label {
+  font-size: 11px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.recipe-calculated-indicator {
+  font-size: 14px;
+  margin-left: 4px;
+  opacity: 0.8;
+}
+
+.dish-price {
+  font-size: 13px;
+  color: #28a745;
+  font-weight: 600;
+  margin: 4px 0;
+  text-align: left;
+}
+
+.stock-out-page .form-group {
+  position: relative;
+}
+
+.reason-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3rem;
+  margin-top: 10px;
+  background-color: #FFFFFF; /* Changed to white for better shadow effect */
+  padding: 12px 16px 12px 16px;
+  border: 1px solid rgb(209, 213, 219);
+  border-radius: 8px;
+  /* The border is replaced by a subtle shadow */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+}
+
+.reason-group .form-label-main {
+  margin-bottom: 0;
+}
+
+.change-reason-btn {
+  position: static;
+  font-family: 'Poppins', sans-serif;
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* --- Styles for the Search Bar --- */
+/* --- Styles for the Search Bar --- */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px; /* Sets a fixed height similar to your design spec */
+  padding: 0 14px; /* Controls left/right padding */
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  box-sizing: border-box; /* Important for correct height calculation */
+}
+
+.search-bar svg {
+  color: #6c757d;
+  flex-shrink: 0;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+} 
+
+
+
+
+
+.category-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.category-pills button {
+  background-color: #fff;
+  border: 1px solid rgb(209, 213, 219) !important;
+  color: #000000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.category-pills button.active {
+  background-color: #212529;
+  color: white;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  /* 👇 ADD THESE TWO LINES 👇 */
+  max-height: 730px; /* Sets a maximum height to fit about 4 rows */
+  overflow-y: auto;  /* Adds a vertical scrollbar ONLY if needed */
+}
+
+/* For tablets & smaller screens */
+@media (max-width: 1024px) {
+  .item-grid {
+    grid-template-columns: repeat(3, 1fr); /* 2 cards per row */
+  }
+}
+
+/* For mobile screens */
+@media (max-width: 600px) {
+  .item-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.dish-card {
+  background-color: #FFFFFF;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: center;
+  position: relative;
+}
+
+.dish-card img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  /* Ensure smooth loading transition */
+  transition: opacity 0.3s ease;
+}
+
+.dish-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #212529;
+  margin: 0 0 4px 0;
+}
+
+.dish-price {
+  font-size: 12px;
+  color: #6c757d;
+  margin: 0 0 8px 0;
+}
+
+.delete-dish-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(255,255,255,0.7);
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.quantity-stepper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.quantity-stepper button {
+  background-color: #FFFFFF;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-stepper span {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.waste-summary {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px 16px;
+  background-color: #F8F9FA;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.waste-summary span:nth-child(odd) {
+  font-weight: 500;
+  color: #000000;
+}
+
+.waste-summary span:nth-child(even) {
+  font-weight: 600;
+  color: #000000;
+  text-align: right;
+}
+
+.waste-summary .total-cost-amount {
+  color: #000000;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.waste-summary .total-cost-amount,
+.waste-summary .total-cost-amount .rupee-symbol,
+.waste-summary .total-cost-amount .fraction-part {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: #000 !important;
+  line-height: 1.1 !important;
+  vertical-align: baseline !important;
+  display: inline-block;
+}
+
+/* Make rupee symbol larger in summary cost */
+.waste-summary .total-cost-amount .rupee-symbol {
+  font-size: 1.3em;
+  font-weight: 700;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
+.stock-out-page textarea {
+  width: 100%;
+  height: 60px;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+
+/* --- Styles for Main Page Buttons --- */
+
+/* This styles the container for the two buttons */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+/* This is a base style for both buttons */
+.form-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Style for the 'Save as Draft' button */
+.form-actions .draft-btn {
+  color: #212529;
+  border-color: #000000;
+  background-color: #FFFFFF;
+  border-width: 2px;
+}
+
+/* UPDATED RULE for the 'Confirm Waste' button */
+.form-actions .submit-btn.waste-confirm {
+  background-color: #000000; /* Black background */
+  border-color: #000000;    /* Black border */
+  color: white;
+}
+
+/* Style for the button when it's disabled */
+.form-actions .submit-btn.waste-confirm:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+  cursor: not-allowed;
+}
+
+
+
+
+.draft-btn {
+    color: #495057;
+    border-color: #dee2e6;
+    background-color: #FFFFFF;
+}
+.submit-btn.waste-confirm {
+  background-color: #000000;
+  border-color: #000000;
+  color: white;
+}
+.submit-btn.waste-confirm:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+}
+
+.recorder-and-photo-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+.recorder-group {
+  flex-grow: 1;
+}
+.recorder-group .form-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+.recorder-group .form-group .form-label-main {
+  margin-bottom: 0;
+}
+.recorder-select-btn {
+  position: static; 
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #212529;
+  background-color: #e9ecef;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+.photo-upload-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  font-size: 24px;
+  color: #6c757d;
+  transition: all 0.2s ease;
+}
+.photo-previews {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.preview-image-container {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+.preview-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.remove-photo-btn {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #c94a4a;
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.stock-out-modal-overlay {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  background: rgba(0,0,0,0.5); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease;
+}
+
+.stock-out-modal-content {
+  background: #FFFFFF; 
+  border-radius: 12px; 
+  padding: 24px; 
+  width: 100%; 
+  max-width: 480px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Success Modal Styles */
+.stock-out-success-modal-box {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 350px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+.checkmark {
+  font-size: 48px;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.checkmark.green { 
+  color: #28a745; 
+  animation: bounce 0.5s ease;
+}
+
+.ok-btn {
+  margin-top: 20px;
+  padding: 10px 24px;
+  border: none;
+  background: #000000;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.ok-btn:hover {
+  background: #000;
+}
+
+.stock-out-modal-list {
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.stock-out-modal-list h3 {
+  text-align: center; 
+  margin: 0 0 20px 0; 
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  flex-shrink: 0;
+}
+
+/* Scrollable container for waste reason buttons */
+.stock-out-modal-list > div {
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+  margin-bottom: 16px;
+}
+
+/* Use system default scrollbars with arrows */
+.stock-out-modal-list h3 {
+  text-align: center; margin: 0 0 20px 0; font-size: 18px;
+}
+.stock-out-modal-list button {
+  background: #f8f9fa; 
+  border: 1px solid #dee2e6; 
+  border-radius: 8px;
+  padding: 14px 16px; 
+  text-align: left; 
+  cursor: pointer; 
+  transition: all 0.2s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stock-out-modal-list button:hover {
+  background-color: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.stock-out-modal-list button.active {
+  border-color: #007bff; 
+  background-color: #e7f3ff;
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+}
+
+.stock-out-modal-list button h4 {
+  margin: 0 0 4px 0; 
+  font-size: 15px;
+  font-weight: 600;
+  color: #212529;
+  line-height: 1.2;
+}
+
+.stock-out-modal-list button p {
+  margin: 0; 
+  font-size: 12px; 
+  color: #6c757d;
+  line-height: 1.3;
+}
+.stock-out-modal-list .cancel-btn {
+  background: #ffffff;               /* White background */
+  border: 1px solid #ccc;            /* Light grey border */
+  border-radius: 6px;
+  text-align: center;
+  color: #000;                    /* Dark text */
+  font-weight: 600;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.stock-out-modal-list .cancel-btn:hover {
+  background-color: #f0f0f0;         /* Slight grey on hover */
+  border-color: #bbb;                /* Slightly darker border on hover */
+  color: #000000;                    /* Slightly darker text on hover */
+}
+
+
+.confirm-actions .cancel-btn {
+  background: none; 
+  border: none; 
+  text-align: center; 
+  color: #6c757d; 
+  font-weight: 600; 
+  margin-top: 10px;
+}
+.confirm-modal h3 {
+  font-size: 18px; 
+  margin: 0 0 16px 0;
+  text-align: center;
+  color: #212529;
+  font-weight: 700;
+}
+.confirm-details {
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+  margin-bottom: 20px; 
+  text-align: left; 
+  font-size: 14px;
+}
+
+.confirm-details p {
+  display: flex; 
+  justify-content: space-between; 
+  margin: 0;
+  padding-left: 16px;
+  padding-right: 25px;
+}
+.confirm-details p span:first-child {
+  color: #6c757d;
+}
+.confirm-details p span:last-child {
+  font-weight: 600; color: #212529;
+}
+.confirm-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* This is for the 'Cancel' button */
+.confirm-actions .cancel-btn {
+  color: #000 !important;
+  background-color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  border-color: #ccc !important;
+}
+
+.confirm-actions .cancel-btn:hover {
+  background-color: #f8f9fa !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  border-color: #adb5bd !important;
+}
+
+.confirm-actions .cancel-btn:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* This is for the 'Confirm' button */
+.confirm-actions .confirm-btn-final {
+  color: white !important;
+  background-color: #212529 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  border-color: #212529 !important;
+}
+
+.confirm-actions .confirm-btn-final:hover {
+  background-color: #000000 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-1px) !important;
+  border-color: #000000 !important;
+}
+
+.confirm-actions .confirm-btn-final:active {
+  transform: translateY(1px) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Shadow pulse animation for the confirm button */
+@keyframes shadowPulse {
+  0% {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Apply the animation to the confirm button */
+.confirm-actions .confirm-btn-final {
+  animation: shadowPulse 2s infinite ease-in-out;
+}
+
+/* Stop the animation on hover to show the hover state */
+.confirm-actions .confirm-btn-final:hover {
+  animation: none;
+}
+
+/* Mobile responsive for OCR elements */
+@media screen and (max-width: 600px) {
+  .form-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .back-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .ocr-indicator {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .ocr-text-preview {
+    padding: 12px;
+  }
+  
+  .ocr-text-preview pre {
+    font-size: 11px;
+    padding: 10px;
+  }
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 20%, 60%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  80% { transform: translateY(-5px); }
+}/*
+ Raw items styles */
+.raw-item-placeholder {
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #dee2e6;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.raw-item-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.raw-item-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.raw-item-info small {
+  font-size: 10px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.dish-card .raw-item-placeholder {
+  transition: all 0.2s ease;
+}
+
+.dish-card:hover .raw-item-placeholder {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-color: #adb5bd;
+}/* Enhanc
+ed raw item status styles */
+.stock-level.low {
+  color: #ff9800;
+}
+
+.stock-level.out-of-stock {
+  color: #f44336;
+}
+
+.stock-level.overstocked {
+  color: #2196f3;
+}
+
+.stock-level.adequate {
+  color: #4caf50;
+}
+
+.expiry-info.urgent {
+  color: #f44336;
+}
+
+.expiry-info.warning {
+  color: #ff9800;
+}
+
+.expiry-info.normal {
+  color: #4caf50;
+}
+
+.raw-item-info small {
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+}
+
+
+/* Add these new styles to the end of your CSS file */
+
+.confirm-modal .item-breakdown-list {
+  max-height: 180px;
+  overflow-y: auto;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.item-breakdown-list {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  box-sizing: border-box;
+  padding: 16px;
+}
+.item-breakdown-list {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  max-height: 160px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.confirm-modal .item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  margin-bottom: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #dee2e6;
+  min-height: 24px;
+}
+
+.confirm-modal .item-row:last-child {
+  margin-bottom: 0;
+  padding-bottom: 8px;
+  border-bottom: none;
+}
+
+.confirm-modal .item-row span:first-child {
+  font-weight: 500;
+  color: #212529;
+  flex: 1;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+.confirm-modal .item-row span:last-child {
+  font-weight: 600;
+  color: #212529;
+  flex-shrink: 0;
+  text-align: right;
+  margin-left: 16px;
+}
+
+.confirm-modal hr {
+  border: none;
+  border-top: 1px solid #dee2e6;
+  margin: 16px 0;
+}
+
+.confirm-modal hr {
+  border: none;
+  border-top: 1px solid #e9ecef;
+  margin: 12px 0;
+}
+
+.confirm-modal .total-cost-summary span:last-child {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Responsive design for confirm modal */
+@media (max-width: 500px) {
+  .stock-out-modal-content {
+    max-width: 95vw;
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .confirm-modal .item-row {
+    font-size: 14px;
+  }
+  
+  .confirm-actions .cancel-btn,
+  .confirm-actions .confirm-btn-final {
+    width: 130px !important;
+    min-width: 130px !important;
+    max-width: 130px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* --- ✅ New Summary & Notes Card Styles --- */
+
+/* This is the main white card container */
+.summary-notes-card {
+  background-color: #FFFFFF;
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Adds space between the summary and the notes */
+  margin-top: 1rem;
+}
+
+/* This is the inner light-grey summary box */
+.waste-summary {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 4px 16px;
+  background-color: #F8F9FA;
+  padding: 12px; /* Slightly less padding to fit inside the card */
+  border-radius: 8px; /* Slightly smaller radius */
+  font-size: 14px;
+}
+
+/* Styles for the summary labels (left column) */
+.waste-summary span:nth-child(odd) {
+  font-weight: 500;
+  color: #000000;
+  text-align: left;
+}
+
+/* Styles for the summary values (right column) */
+.waste-summary span:nth-child(even) {
+  font-weight: 600;
+  color: #000000;
+  text-align: right;
+}
+
+/* Style for the final cost amount */
+.waste-summary .total-cost-amount {
+  color: #000000;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Removes extra margin from the notes section so it fits nicely in the card */
+.summary-notes-card .notes-group {
+  margin-bottom: 0;
+}

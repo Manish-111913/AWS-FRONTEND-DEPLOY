@@ -1,0 +1,577 @@
+/* --- General Setup & Mobile View Container --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+
+/* Prevent body scrolling when on associated items screen */
+body:has(.associated-items-screen) {
+    overflow: hidden !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+}
+
+.mobile-view {
+    width: 100vw;
+    max-width: 600px;
+    /* cap width on large viewports */
+    min-height: 100dvh;
+    /* fill device height; better on mobile than 100vh */
+    background: #ffffff;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Specific styling for associated items screen - prevent all scrolling */
+.mobile-view:has(.associated-items-screen) {
+    overflow: hidden !important;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+/* --- Screen Layout --- */
+.screen {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    /* fill available vertical space inside mobile-view */
+    min-height: 0;
+    /* allow children to size/scroll correctly */
+    overflow: hidden;
+    margin-bottom: 4rem
+}
+
+.screen-header {
+    padding: 24px 50px 16px;
+    /* Increased horizontal padding */
+    text-align: center;
+    flex-shrink: 0;
+    position: relative;
+    /* This is needed for the back button */
+}
+
+.screen-header h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #1c1c1e;
+}
+
+.screen-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #8a8a8e;
+}
+
+main {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 20px;
+}
+
+/* Specific override for associated items screen - no scrolling */
+.screen:has(.associated-items-content) main,
+.associated-items-content {
+    overflow: hidden !important;
+}
+
+/* Associated Items Screen - Fixed Height, No Scroll */
+.associated-items-screen {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
+    position: fixed !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 100vw !important;
+    max-width: 600px !important;
+}
+
+.associated-items-screen main {
+    overflow: hidden !important;
+    padding: 0 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.associated-items-screen .screen-header {
+    flex-shrink: 0;
+}
+
+.associated-items-screen .screen-footer {
+    flex-shrink: 0;
+    padding: 0 20px 80px;
+    /* Added large bottom padding to push button above bottom nav */
+    margin-top: 10px;
+    /* Reduced margin to bring button up */
+}
+
+/* Hide scrollbar */
+main::-webkit-scrollbar {
+    display: none;
+}
+
+main {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar completely for associated items screen */
+.associated-items-screen::-webkit-scrollbar,
+.associated-items-screen *::-webkit-scrollbar,
+body:has(.associated-items-screen)::-webkit-scrollbar,
+html:has(.associated-items-screen)::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.associated-items-screen,
+.associated-items-screen *,
+body:has(.associated-items-screen),
+html:has(.associated-items-screen) {
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+    overflow: hidden !important;
+}
+
+
+.screen-footer {
+    padding: 0 20px 8px;
+    /* Reduced bottom padding to push button up */
+    flex-shrink: 0;
+    margin-top: auto;
+    /* push the footer to the bottom */
+}
+
+/* --- Buttons --- */
+.action-button {
+    width: 100%;
+    padding: 16px;
+    background-color: #000000;
+    /* Main Green Color */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.action-button.orange {
+    background-color: #000000;
+    /* Orange color */
+}
+
+.action-button.orange:hover {
+    background-color: #000000;
+}
+
+
+/* .action-button:hover { background-color: #000000; } */
+
+.action-button:disabled {
+    background-color: #e0e0e0;
+    color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+/* Back Button Styling (Updated) */
+.back-button {
+    position: absolute;
+    left: 16px;
+    top: 20px;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+}
+
+/* Explicitly prevent any hover effects */
+.back-button:hover,
+.back-button:focus,
+.back-button:active {
+    background: transparent !important;
+    background-color: transparent !important;
+    transform: none !important;
+    scale: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Ensure no pseudo-elements create black backgrounds */
+.back-button::before,
+.back-button::after {
+    display: none !important;
+}
+
+/* --- Associated Items Screen --- */
+.associated-items-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center the card vertically */
+    align-items: center;
+    text-align: center;
+    padding: 2px 20px;
+    /* Further reduced padding to give more space for button */
+    flex: 1 1 auto;
+    /* take remaining space between header and footer */
+    min-height: 0;
+    overflow: hidden !important;
+    /* Prevent scrolling */
+    max-height: none;
+    /* Remove height restriction */
+}
+
+.info-card {
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    padding: 16px 20px 12px 20px;
+    /* Further reduced padding to save space */
+    border: 1px solid #e8e8e8;
+}
+
+.info-card h3 {
+    margin-top: 8px;
+    /* Further reduced top margin */
+    margin-bottom: 4px;
+    /* Further reduced bottom margin */
+    font-size: 18px;
+    color: #000;
+    white-space: normal;
+    /* allow wrapping on narrow screens */
+    word-break: break-word;
+}
+
+.info-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+
+/* --- Enhancements Screen --- */
+.enhancements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+}
+
+.item-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    height: 100%;
+    /* Take full grid cell height */
+    min-height: 180px;
+    /* Match grid row height */
+    max-height: 180px;
+    /* Prevent cards from growing */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* Prevent content overflow */
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+}
+
+.item-card.selected {
+    border: 1.2px solid #000 !important;
+}
+
+.item-image {
+    width: 100%;
+    height: 120px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    background-size: cover;
+    background-position: center;
+    background-image: linear-gradient(to bottom right, #e0e0e0, #f0f0f0);
+}
+
+
+.item-card p {
+    margin: 0;
+    font-weight: 500;
+    color: #000;
+}
+
+.selection-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: #000000;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* --- Configure Screen --- */
+.configure-list {
+    padding-bottom: 20px;
+}
+
+.recipe-section {
+    margin-bottom: 24px;
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    overflow: hidden;
+}
+
+.recipe-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0;
+    padding: 16px;
+    border-bottom: 1px solid #f0f0f0;
+    justify-content: flex-start;
+    background: #f9f9f9;
+}
+
+.recipe-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.recipe-header .selection-badge {
+    position: static;
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.ingredient-row {
+    background: #fff;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* When editing, allow wrapping so action buttons can sit underneath */
+.ingredient-row.editing {
+    flex-wrap: wrap;
+    row-gap: 0;
+    /* remove vertical gap between lines */
+}
+
+.ingredient-row:last-child {
+    border-bottom: none;
+}
+
+.ingredient-name {
+    font-weight: 500;
+    flex: 1;
+    text-align: left;
+    font-size: 15px;
+    color: #000;
+}
+
+.ingredient-name.clickable {
+    cursor: pointer;
+}
+
+.controls-inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 200px;
+    justify-content: flex-end;
+}
+
+.square-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    color: #374151;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.number-input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+.select-input {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px;
+    min-width: 80px;
+}
+
+
+.ingredient-unit {
+    width: 50px;
+    text-align: left;
+    color: #888;
+    font-size: 14px;
+}
+
+/* --- Success Modal --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: white;
+    padding: 24px 30px;
+    border-radius: 16px;
+    text-align: center;
+    width: 80%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    color: #000000;
+    text-align: center;
+}
+
+.modal-content button {
+    padding: 10px 30px 10px 30px;
+    border: none;
+    background-color: transparent;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* --- Web/Desktop View Adjustments --- */
+@media (min-width: 768px) {
+    .mobile-view {
+        /* box-shadow removed */
+        padding: 0;
+    }
+}
+
+
+/* Remove number input spinners */
+input[type="number"] {
+    -moz-appearance: textfield !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+    display: none !important;
+}
+
+/* Error text styling */
+.error-text {
+    color: #dc3545;
+    font-size: 14px;
+    text-align: center;
+    padding: 16px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+/* --- Responsive tweaks --- */
+@media (max-width: 480px) {
+    .screen-header {
+        padding: 16px;
+    }
+
+    main {
+        padding: 0 12px;
+    }
+
+    .enhancements-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .item-card {
+        min-height: auto;
+        max-height: none;
+    }
+
+    .item-image {
+        height: 160px;
+    }
+
+    .ingredient-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ingredient-name,
+    .controls-inline {
+        flex: 1 1 100%;
+    }
+
+    .controls-inline {
+        justify-content: space-between;
+    }
+}

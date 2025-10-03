@@ -1,0 +1,6 @@
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-content{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:360px}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-title{font-size:18px;font-weight:600;color:#1a1a1a}
+.qr-box{background:#fff;border:1px dashed #ddd;border-radius:12px;height:220px;display:flex;align-items:center;justify-content:center;color:#555}

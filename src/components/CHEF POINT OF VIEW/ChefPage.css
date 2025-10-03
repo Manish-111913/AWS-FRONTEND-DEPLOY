@@ -1,0 +1,100 @@
+/* Chef Dashboard Styles - Exact React Native Conversion */
+.chef-container {
+  background-color: #111;
+  min-height: 100vh;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.chef-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #333;
+  flex-shrink: 0;
+  min-height: 64px;
+}
+
+.chef-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffd2d2;
+  flex: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+/* Chef Dashboard - Dark Transparent Theme (Clean) */
+.chef-container { background-color: #111; min-height: 100vh; max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; }
+
+/* Header */
+.chef-header { display: flex; flex-direction: row; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #333; }
+.header-content { display: flex; justify-content: space-between; width: 100%; align-items: center; }
+.header-left { display: flex; gap: 10px; align-items: center; }
+.header-right { display: flex; gap: 10px; align-items: center; }
+.header-left h1 { color: #fff; margin: 0; font-size: 24px; }
+.active-count-badge { color: #ccc; font-size: 14px; }
+.refresh-button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid #444; color: #fff; background: #1b1b1b; padding: 6px 10px; border-radius: 6px; cursor: pointer; }
+.refresh-button.refreshing { opacity: 0.6; cursor: default; }
+.time-display { color: #999; font-size: 14px; }
+
+/* Titles */
+.queue-title { color: #fff; font-size: 20px; font-weight: 700; margin: 12px 20px; }
+
+/* Content Grid */
+.orders-grid { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 16px; }
+.no-orders { color: #ccc; text-align: center; padding: 32px 0; }
+
+/* Order Card */
+.order-card { background: rgba(34, 34, 34, 0.9); border-radius: 12px; padding: 14px 16px; border-left: 4px solid #fbbf24; }
+.order-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.order-info h3 { color: #fff; margin: 0; font-size: 18px; }
+.table-info { display: flex; align-items: center; gap: 6px; color: #ccc; margin-top: 2px; font-size: 14px; }
+.order-status .time-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 16px; font-size: 13px; font-weight: 700; }
+.time-pill.ok { background: #1f2a1f; color: #d1fadf; }
+.time-pill.warning { background: #2a281f; color: #fde68a; }
+.time-pill.danger { background: #2a1f1f; color: #fecaca; }
+
+/* Items */
+.order-items { margin-bottom: 8px; }
+.order-list-heading { color: #fff; font-weight: 700; margin-bottom: 6px; }
+.order-item { margin-bottom: 6px; }
+.item-main .item-name { color: #fff; }
+.item-customizations { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.customization.badge { background: #333; color: #fff; border: 1px solid #444; border-radius: 6px; padding: 2px 6px; font-size: 11px; }
+
+/* Special Requests */
+.special-requests-title { color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.special-requests-bar { display: flex; align-items: center; gap: 6px; background: #2a1f1f; color: #fecaca; border: 1px solid #3b1f1f; border-radius: 8px; padding: 6px 8px; }
+
+/* Status Row */
+.status-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.status-label { color: #ccc; font-size: 14px; }
+.status-pill { display: inline-block; color: #111; background: #fbbf24; border-radius: 12px; padding: 2px 10px; font-weight: 700; font-size: 12px; }
+
+/* Actions */
+.order-actions { margin-top: 10px; }
+.action-button.primary { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #111; color: #fff; border: 1px solid #333; padding: 12px 0; border-radius: 8px; cursor: pointer; }
+.action-button.primary:disabled { opacity: 0.6; cursor: default; }
+.spinning { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Utilities */
+.status-placed { border-left-color: #3b82f6; }
+.status-preparing { border-left-color: #fbbf24; }
+.status-ready { border-left-color: #22c55e; }
+.status-completed { border-left-color: #9e9e9e; }
+.batch-modal-scroll::-webkit-scrollbar-thumb {
+  background: #fbbf24;
+  border-radius: 4px;
+}

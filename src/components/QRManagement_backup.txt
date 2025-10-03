@@ -1,0 +1,279 @@
+import React, { useState, useEffect } from 'react';
+import { QRCodeCanvas } from 'qrcode.react';
+import QRCode from 'qrcode';
+import './QRManagement.css';
+
+const QRManagement = () => {
+    const [qrCodes, setQrCodes] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [generatedQR, setGeneratedQR] = useState(null);
+    const [tablesCount, setTablesCount] = useState('');
+    const [searchTable, setSearchTable] = useState('');
+    const [bulkQRCodes, setBulkQRCodes] = useState([]);
+    const [bulkGenerating, setBulkGenerating] = useState(false);
+
+    // Generate bulk QR codes based on table count
+    const generateBulkQRCodes = async () => {
+        if (!tablesCount.trim() || parseInt(tablesCount) <= 0) {
+            setError('Please enter a valid number of tables');
+            return;
+        }
+
+        setBulkGenerating(true);
+        setError('');
+        setGeneratedQR(null); // Clear any single QR display
+
+        try {
+            const count = parseInt(tablesCount);
+            const tableNumbers = [];
+            for (let i = 1; i <= count; i++) {
+                tableNumbers.push(i.toString());
+            }
+
+            const response = await fetch('http://localhost:5001/api/qr/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    tables: tableNumbers,
+                    businessId: 1
+                }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Handle both new and existing QR codes
+                let allQRCodes = data.qrCodes || [];
+                
+                // If there are existing QR codes in errors, add them to the list
+                if (data.errors && data.errors.length > 0) {
+                    const existingQRs = data.errors
+                        .filter(error => error.existing)
+                        .map(error => ({
+                            ...error.existing,
+                            table_number: error.table
+                        }));
+                    allQRCodes = [...allQRCodes, ...existingQRs];
+                }
+                
+                console.log('Bulk QR Codes processed:', allQRCodes);
+                
+                // Sort the QR codes by table number in ascending order
+                const sortedQRCodes = allQRCodes.sort((a, b) => {
+                    const tableA = parseInt(a.table_number);
+                    const tableB = parseInt(b.table_number);
+                    return tableA - tableB;
+                });
+                setBulkQRCodes(sortedQRCodes);
+                setTablesCount('');
+                setError('');
+            } else {
+                setError(data.error || 'Failed to generate QR codes');
+            }
+        } catch (err) {
+            setError('Network error occurred');
+            console.error('Error:', err);
+        } finally {
+            setBulkGenerating(false);
+        }
+    };
+
+    // Search for specific table from the generated bulk codes
+    const handleTableSearch = () => {
+        if (!searchTable.trim()) {
+            setError('Please enter a table number to search');
+            return;
+        }
+        
+        if (bulkQRCodes.length === 0) {
+            setError('Please generate tables first using the table count above');
+            return;
+        }
+
+        const foundQR = bulkQRCodes.find(qr => qr.table_number === searchTable);
+        if (foundQR) {
+            setGeneratedQR(foundQR);
+            setError('');
+        } else {
+            setError(`Table ${searchTable} not found in generated tables (1-${bulkQRCodes.length})`);
+        }
+        setSearchTable('');
+    };
+
+    const fetchQRCodes = async () => {
+        try {
+            const response = await fetch(`http://localhost:5001/api/qr/list?businessId=1`);
+            const data = await response.json();
+            
+            if (response.ok) {
+                setQrCodes(data.qrCodes || []);
+            }
+        } catch (err) {
+            console.error('Error fetching QR codes:', err);
+        }
+    };
+
+    const downloadQRCode = async (qrCode) => {
+        try {
+            const qrCodeDataURL = await QRCode.toDataURL(qrCode.anchor_url, {
+                width: 512,
+                margin: 2,
+                color: {
+                    dark: '#000000',
+                    light: '#FFFFFF'
+                }
+            });
+
+            const link = document.createElement('a');
+            link.href = qrCodeDataURL;
+            link.download = `QR-Table-${qrCode.table_number}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (err) {
+            console.error('Error downloading QR code:', err);
+            setError('Failed to download QR code');
+        }
+    };
+
+    const deleteQRCode = async (qrId) => {
+        if (window.confirm('Are you sure you want to delete this QR code?')) {
+            try {
+                const response = await fetch(`http://localhost:5001/api/qr/${qrId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    fetchQRCodes();
+                } else {
+                    setError('Failed to delete QR code');
+                }
+            } catch (err) {
+                setError('Network error occurred');
+                console.error('Error:', err);
+            }
+        }
+    };
+
+    useEffect(() => {
+        fetchQRCodes();
+    }, []);
+
+    return (
+        <div className="qr-management-container">
+            <div className="qr-management-content">
+                {/* Header */}
+                <div className="qr-header">
+                    <h1>🔗 QR Code Generator</h1>
+                    <p>Click any table number to automatically generate QR code</p>
+                </div>
+
+                {/* Search Section */}
+                <div className="qr-main-card">
+                    <div className="search-section">
+                        <h2>� Search Specific Table</h2>
+                        <div className="search-group">
+                            <input
+                                type="number"
+                                value={searchTable}
+                                onChange={(e) => setSearchTable(e.target.value)}
+                                placeholder="Enter table number (e.g., 25, 100)"
+                                min="1"
+                                className="search-input"
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') {
+                                        handleSearch();
+                                    }
+                                }}
+                            />
+                            <button
+                                onClick={handleSearch}
+                                disabled={loading || !searchTable.trim()}
+                                className="search-btn"
+                            >
+                                {loading ? '🔄 Searching...' : '🔍 Search Table'}
+                            </button>
+                        </div>
+                        
+                        {error && <div className="error-message">{error}</div>}
+                    </div>
+
+                    {/* QR Display Section */}
+                    {generatedQR && (
+                        <div className="qr-display-section">
+                            <h3>Generated QR Code - Table {generatedQR.table_number}</h3>
+                            <div className="qr-code-container">
+                                <QRCodeCanvas
+                                    value={generatedQR.anchor_url}
+                                    size={200}
+                                    level="H"
+                                    includeMargin={true}
+                                />
+                                <div className="qr-info">
+                                    <p><strong>Table:</strong> {generatedQR.table_number}</p>
+                                    <p><strong>ID:</strong> {generatedQR.qr_id}</p>
+                                    <p><strong>URL:</strong> <span className="url-text">{generatedQR.anchor_url}</span></p>
+                                </div>
+                                <button
+                                    onClick={() => downloadQRCode(generatedQR)}
+                                    className="download-btn"
+                                >
+                                    📥 Download QR Code
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Table Selection Grid */}
+                <div className="qr-main-card">
+                    <div className="table-selection">
+                        <h2>📋 Quick Select Tables (1-50)</h2>
+                        <p>Click any table number to automatically generate its QR code</p>
+                        <div className="table-grid">
+                            {availableTables.map((tableNum) => (
+                                <button
+                                    key={tableNum}
+                                    onClick={() => handleTableClick(tableNum)}
+                                    disabled={loading}
+                                    className="table-btn"
+                                >
+                                    {tableNum}
+                                </button>
+                            ))}
+                        </div>
+                        {loading && (
+                            <div className="loading-message">
+                                🔄 Generating QR code...
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Analytics Section */}
+                <div className="analytics-section">
+                    <h2>📊 Quick Stats</h2>
+                    <div className="stats-grid">
+                        <div className="stat-card">
+                            <h3>{generatedQR ? 1 : 0}</h3>
+                            <p>Current QR Display</p>
+                        </div>
+                        <div className="stat-card">
+                            <h3>{generatedQR ? generatedQR.table_number : '—'}</h3>
+                            <p>Active Table</p>
+                        </div>
+                        <div className="stat-card">
+                            <h3>1-50</h3>
+                            <p>Available Range</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default QRManagement;

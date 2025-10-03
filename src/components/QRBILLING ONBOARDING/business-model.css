@@ -1,0 +1,6 @@
+.model-card{background:#2a2a2a;border:2px solid #374151;border-radius:12px;padding:20px}
+.model-card.active{background:var(--accent);border-color:var(--accent)}
+.model-title{font-size:18px;font-weight:600;margin:0 0 8px}
+.model-desc{font-size:14px;color:#9CA3AF;margin:0 0 12px}
+.model-card.active .model-title{color:#1a1a1a}
+.model-card.active .model-desc{color:#1a1a1a}

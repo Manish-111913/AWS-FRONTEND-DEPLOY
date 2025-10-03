@@ -1,0 +1,108 @@
+/* Inventory Calculator page styles (scoped via ic- prefix) */
+
+.ic-page {
+  background-color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
+  /* Desktop/Large screens: 40px horizontal padding */
+  padding: 24px 40px 96px;
+  min-height: 100vh; /* allow room for footer nav */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* vertical center */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Tablet + Mobile (<=768px): 20px horizontal padding */
+@media screen and (max-width: 768px) {
+  .ic-page {
+    padding: 24px 20px 96px;
+  }
+}
+
+/* Small Mobile (<=480px) */
+@media screen and (max-width: 480px) {
+  .ic-page {
+    padding: 24px 20px 96px; /* same padding, but you can tweak smaller if needed */
+  }
+}
+
+
+.ic-title-wrapper {
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.ic-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.ic-card {
+  padding: 0; /* StandardCard supplies its own padding; we keep inner padding inside */
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ic-card-inner {
+  padding: 28px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ic-logo-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
+  background: rgba(245, 158, 11, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.ic-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.ic-heading {
+  font-size: 26px;
+  text-align: center;
+  margin: 0 0 10px;
+  font-weight: 800;
+}
+
+.ic-desc {
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0 0 18px;
+  max-width: 520px;
+}
+
+.ic-cta {
+  width: 100%;
+  background: #f97316;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.ic-footnote {
+  text-align: center;
+  color: #6b7280;
+  font-size: 12px;
+  margin-top: 16px;
+}

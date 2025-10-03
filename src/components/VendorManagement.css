@@ -1,0 +1,847 @@
+/* --- Global Styles & Variables --- */
+:root {
+    --page-bg: #F7F8FA;
+    --card-bg: #FFFFFF;
+    --border-color: #EEEEEE;
+    --primary-text: #111827;
+    --secondary-text: #6B7281;
+    --black: #000000;
+    --white: #FFFFFF;
+    --star-yellow: #FACC15;
+    --primary-blue: #3B82F6;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--page-bg);
+}
+
+/* --- Vendor Management List Styles (vm-) --- */
+.vm-page-container {
+    max-width: 600px;
+    width: 100vw;
+    margin: auto;
+    position: relative;
+}
+
+.vm-content {
+    background-color: var(--white);
+    padding: 16px 16px 4rem 16px;
+    min-height: 100vh;
+}
+
+.vm-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.vm-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-text);
+    margin: 0;
+}
+
+.vm-back-btn {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--primary-text);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.vm-search-bar {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.vm-search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary-text);
+    font-size: 20px;
+}
+
+.vm-search-bar input {
+    width: 100%;
+    padding: 12px 16px 12px 45px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    background-color: var(--page-bg);
+    box-sizing: border-box;
+}
+
+.vm-search-bar input::placeholder {
+    color: var(--secondary-text);
+}
+
+.vm-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    overflow-x: auto;
+}
+
+.vm-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.vm-filters {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.vm-filter-pill {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid rgb(209, 213, 219);
+    background-color: #fff;
+    color: var(--primary-text);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+}
+
+.vm-filter-pill.active {
+    background-color: var(--black);
+    color: var(--white);
+    border-color: var(--black);
+}
+
+.vm-kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.vm-kpi-card {
+    background-color: var(--page-bg);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.vm-kpi-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.vm-kpi-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-text);
+}
+
+.vm-kpi-label {
+    font-size: 13px;
+    color: var(--secondary-text);
+}
+
+.vm-total-spend-card-modified {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+.vm-total-spend-info,
+.vm-total-credit-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.vm-total-spend-label,
+.vm-total-credit-label {
+    font-size: 13px;
+    color: var(--secondary-text);
+    margin-bottom: 4px;
+}
+
+.vm-total-spend-amount {
+    font-size: 26px;
+    font-weight: 700;
+    color: #D92D20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+}
+
+.vm-total-spend-period {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secondary-text);
+}
+
+/* --- MODIFICATION: Added styles for total credit display --- */
+.vm-total-credit-info {
+    padding-top: 12px;
+    border-top: 1px solid #E5E7EB;
+}
+
+.vm-total-credit-amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-blue);
+}
+
+
+.vm-add-credit-btn {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    color: var(--primary-text);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 4px;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+.vm-vendor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.vm-no-vendors-message {
+    text-align: center;
+    color: var(--secondary-text);
+    padding: 40px 20px;
+}
+
+.vm-vendor-card {
+    cursor: pointer;
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.vm-vendor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.vm-vendor-title h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-text);
+    margin: 0;
+    text-align: left;
+}
+
+.vm-vendor-title p {
+    font-size: 13px;
+    color: var(--secondary-text);
+    margin: 4px 0 0 0;
+}
+
+.vm-vendor-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--primary-text);
+}
+
+.vm-star-icon {
+    color: var(--star-yellow);
+    fill: var(--star-yellow);
+    font-size: 16px;
+}
+
+.vm-vendor-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--secondary-text);
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.vm-stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.vm-stat-item svg {
+    font-size: 16px;
+}
+
+.vm-vendor-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.vm-vendor-actions button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-color: #000;
+}
+
+.vm-contact-btn {
+    background-color: var(--black);
+    color: var(--white);
+    border: 1px solid var(--black);
+}
+
+.vm-details-btn {
+    background-color: var(--white);
+    color: var(--primary-text);
+    border: 1px solid var(--border-color);
+}
+
+.vm-add-vendor-btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed var(--black);
+    border-radius: 12px;
+    background-color: var(--white);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary-text);
+    cursor: pointer;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.vm-add-vendor-btn:hover {
+    background-color: var(--page-bg);
+}
+
+/* --- Edit Vendor Page Styles (ev-) --- */
+.ev-page-container {
+    background-color: var(--page-bg);
+    max-width: 600px;
+    width: 100vw;
+    margin: auto;
+}
+
+.ev-header {
+    background-color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.ev-header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ev-back-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.ev-save-btn {
+    background-color: #000;
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ev-content {
+    padding: 16px 16px 4rem 16px;
+    background: #fff;
+}
+
+.ev-section {
+    background-color: var(--white);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.ev-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--secondary-text);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 16px 0;
+}
+
+.ev-input-group {
+    margin-bottom: 16px;
+}
+
+.ev-input-group:last-child {
+    margin-bottom: 0;
+}
+
+.ev-input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.ev-input-group input,
+.ev-input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(209, 213, 219) !important;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.ev-input-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.ev-star-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding-bottom: 1.3rem;
+}
+
+
+.ev-star-rating input[type="radio"] {
+    display: none;
+}
+
+.ev-star {
+    cursor: pointer;
+    font-size: 32px;
+    transition: color 0.2s;
+}
+
+.ev-star-rating-text {
+    margin-left: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--secondary-text);
+}
+
+.ev-rating-prompt {
+    font-size: 14px;
+    color: var(--secondary-text);
+    margin: -10px 0 10px 0;
+}
+
+/* --- Modal Styles --- */
+.vm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.vm-modal-content {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 380px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.vm-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.vm-modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.vm-modal-close-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--secondary-text);
+}
+
+.vm-modal-content p {
+    margin: -10px 0 20px 0;
+    color: var(--secondary-text);
+}
+
+.vm-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.vm-modal-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.vm-modal-btn-primary {
+    background-color: var(--black);
+    color: var(--white);
+    border: 1px solid var(--black);
+}
+
+.vm-modal-btn-secondary {
+    background-color: var(--white);
+    color: var(--primary-text);
+    border: 1px solid var(--border-color);
+}
+
+.vm-modal-list {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-top: 16px;
+}
+
+.vm-modal-list-item {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.vm-modal-list-item:hover {
+    background-color: var(--page-bg);
+}
+
+.vm-modal-list-item:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* --- Loading and Empty States --- */
+.vm-loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: var(--secondary-text);
+}
+
+.vm-no-vendors-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.vm-no-vendors-message {
+    color: var(--primary-text);
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.vm-no-vendors-suggestion {
+    color: var(--secondary-text);
+    font-size: 14px;
+    margin-top: 0;
+}
+
+/* --- Category Badge --- */
+.vm-vendor-category-badge {
+    display: inline-block;
+    background-color: var(--page-bg);
+    color: var(--secondary-text);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-top: 4px;
+}
+
+/* --- Custom Date Picker styles (shared with StockIn) --- */
+.date-picker-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.date-picker-wrap input[type="date"] {
+    width: 100%;
+    padding-right: 44px;
+}
+
+.date-picker-wrap input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+.date-picker-button {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    height: 30px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent !important;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #000 !important;
+    cursor: pointer;
+}
+
+.date-picker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.date-picker-popup {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    width: 90%;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.calendar-header button:hover {
+    background-color: #f0f2f5;
+}
+
+.calendar-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.weekday {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6c757d;
+    padding: 5px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.calendar-day:hover {
+    background-color: #f0f2f5;
+}
+
+.calendar-day.empty {
+    cursor: default;
+}
+
+.calendar-day.empty:hover {
+    background-color: transparent;
+}
+
+.calendar-header {
+    gap: 8px;
+    align-items: center;
+}
+
+.calendar-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+    margin-top: 0.2rem
+}
+
+.calendar-header .calendar-month-select,
+.calendar-header .calendar-year-select {
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 14px;
+    background: #fff;
+    color: #333;
+    max-width: 140px;
+}
+
+.date-picker-popup {
+    max-width: 320px;
+}
+
+.calendar-header select {
+    position: relative;
+    z-index: 1001;
+}
+
+/* Usage-style custom dropdown for calendar header (match StockIn) */
+.calendar-select {
+    position: relative;
+}
+
+.calendar-select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 8px 12px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.calendar-select-caret {
+    display: none !important;
+}
+
+.calendar-select-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    z-index: 1100;
+}
+
+.calendar-select-list {
+    max-height: 220px;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.calendar-select-option {
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.calendar-select-option:hover {
+    background: #f6f8fa;
+}
+
+.calendar-select-option.selected {
+    background: #eaf5ff;
+    font-weight: 600;
+}
+
+/* Keep header arrows inside the card */
+.calendar-header button {
+    padding: 4px 10px;
+}
+
+.date-picker-popup {
+    padding-top: 16px;
+}

@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+/* App-wide white background */
+body.app-global {
+  background-color: #f5f5f5 !important;
+}
+
+/* Center the root to phone-width across the app */
+body.app-global #root {
+  max-width: 600px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ensure dashboard view also uses white background */
+body.app-global.dashboard-body {
+  background-color: #fff !important;
+}
+
+/* Global scrollbar styling – thin and consistent across the app (scoped) */
+/* Firefox */
+body.app-global * {
+  scrollbar-width: thin; /* thin width */
+  scrollbar-color: #cfd8dc #f0f2f5; /* thumb, track */
+}
+
+/* Chromium/WebKit */
+body.app-global *::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+body.app-global *::-webkit-scrollbar-track {
+  background: #f0f2f5; /* light track to match report tables */
+}
+
+body.app-global *::-webkit-scrollbar-thumb {
+  background-color: #cfd8dc; /* subtle gray-blue thumb */
+  border-radius: 8px;
+}
+
+body.app-global *::-webkit-scrollbar-thumb:hover {
+  background-color: #b0bec5; /* slightly darker on hover */
+}

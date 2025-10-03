@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Access Test</title>
+</head>
+<body>
+    <h1>Testing Image Access</h1>
+    
+    <h2>Direct Image URLs:</h2>
+    <div>
+        <p>Chicken Tikka:</p>
+        <img src="http://localhost:5000/uploads/menu-items/original/chicken_tikka.jpg" 
+             alt="Chicken Tikka" style="width: 200px; height: 150px; border: 1px solid #ccc;">
+    </div>
+    
+    <div>
+        <p>Garlic Naan:</p>
+        <img src="http://localhost:5000/uploads/menu-items/original/garlic_naan.jpg" 
+             alt="Garlic Naan" style="width: 200px; height: 150px; border: 1px solid #ccc;">
+    </div>
+    
+    <div>
+        <p>Lassi:</p>
+        <img src="http://localhost:5000/uploads/menu-items/original/lassi.jpg" 
+             alt="Lassi" style="width: 200px; height: 150px; border: 1px solid #ccc;">
+    </div>
+
+    <h2>API Test:</h2>
+    <button onclick="testAPI()">Test Menu API</button>
+    <div id="apiResult"></div>
+
+    <script>
+        async function testAPI() {
+            try {
+                const response = await fetch('http://localhost:5000/api/menu/items');
+                const data = await response.json();
+                document.getElementById('apiResult').innerHTML = 
+                    '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+            } catch (error) {
+                document.getElementById('apiResult').innerHTML = 
+                    '<p style="color: red;">Error: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>
