@@ -15,6 +15,24 @@ export default function QRGenerationStep({ formData, updateFormData }) {
     } catch(_) { return API_BASE_URL.replace(/\/$/, ''); }
   };
 
+  const getApiBases = () => {
+    const base = getEffectiveApiBase().replace(/\/$/, '');
+    const withApi = /\/api$/i.test(base) ? base : `${base}/api`;
+    const withoutApi = base.replace(/\/api$/i, '');
+    return { withApi, withoutApi };
+  };
+
+  const fetchWithVariants = async (relativePath, init) => {
+    const { withApi, withoutApi } = getApiBases();
+    // Try withApi first
+    let resp = await fetch(`${withApi}${relativePath}`, init);
+    if (resp.status === 404) {
+      // Try withoutApi
+      try { resp = await fetch(`${withoutApi}${relativePath}`, init); } catch(_) {}
+    }
+    return resp;
+  };
+
   const getJsonSafe = async (resp) => {
     const ct = resp.headers.get('content-type') || '';
     if (ct.includes('application/json')) { try { return await resp.json(); } catch(_) { return null; } }
@@ -45,8 +63,7 @@ export default function QRGenerationStep({ formData, updateFormData }) {
         const sp = new URLSearchParams(window.location.search);
         const bidFromUrl = sp.get('businessId') || sp.get('bid') || sp.get('b');
         const businessId = Number(getTenant?.() || formData.businessId || bidFromUrl || 1);
-        const base = getEffectiveApiBase();
-        const resp = await fetch(`${base}/qr/list?businessId=${encodeURIComponent(businessId)}&includePng=${withPng?1:0}`);
+        const resp = await fetchWithVariants(`/qr/list?businessId=${encodeURIComponent(businessId)}&includePng=${withPng?1:0}`);
         const data = await getJsonSafe(resp);
         if (!resp.ok) {
           const bodyText = data ? (data.error || data.message || JSON.stringify(data)) : (await resp.text().catch(()=>''));
@@ -102,13 +119,19 @@ export default function QRGenerationStep({ formData, updateFormData }) {
         const bidFromUrl = sp.get('businessId') || sp.get('bid') || sp.get('b');
         const businessId = Number(getTenant?.() || formData.businessId || bidFromUrl || 1);
         const payload = { businessId, tables: toGenerate, includePng: true };
-        const base = getEffectiveApiBase();
-        try { console.log('[QRGeneration] bulk-generate payload', payload, 'API:', base); } catch(_) {}
-        const resp = await fetch(`${base}/qr/bulk-generate`, {
+        const { withApi, withoutApi } = getApiBases();
+        try { console.log('[QRGeneration] bulk-generate payload', payload, 'API:', withApi); } catch(_) {}
+        let resp = await fetch(`${withApi}/qr/bulk-generate`, {
           method: 'POST',
           headers: { 'Content-Type':'application/json' },
           body: JSON.stringify(payload)
         });
+        if (resp.status === 404) {
+          // Try without /api
+          resp = await fetch(`${withoutApi}/qr/bulk-generate`, {
+            method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify(payload)
+          });
+        }
         const data = await getJsonSafe(resp);
         if (!resp.ok) {
           let detail = '';
@@ -118,7 +141,8 @@ export default function QRGenerationStep({ formData, updateFormData }) {
           if (resp.status === 404) {
             try {
               const qs = new URLSearchParams({ businessId: String(businessId), generateMissing: '1', tables: toGenerate.join(','), includePng: '1' });
-              const ensure = await fetch(`${base}/qr/list?${qs.toString()}`);
+              let ensure = await fetch(`${withApi}/qr/list?${qs.toString()}`);
+              if (ensure.status === 404) ensure = await fetch(`${withoutApi}/qr/list?${qs.toString()}`);
               const ensureData = await getJsonSafe(ensure);
               if (!ensure.ok) {
                 const emsg = ensureData?.error || ensureData?.message || `Fallback failed (HTTP ${ensure.status})`;
