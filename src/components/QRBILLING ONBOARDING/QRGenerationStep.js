@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Star, QrCode, Link, Copy, Download, RefreshCw } from 'lucide-react';
 import { API_BASE_URL } from '../../services/apiClient';
+import { getTenant } from '../../services/tenantContext';
 
 export default function QRGenerationStep({ formData, updateFormData }) {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -25,9 +26,15 @@ export default function QRGenerationStep({ formData, updateFormData }) {
       setLoadingExisting(true);
       setError('');
       try {
-        const resp = await fetch(`${API_BASE_URL}/qr/list?businessId=1&includePng=${withPng?1:0}`);
+        const sp = new URLSearchParams(window.location.search);
+        const bidFromUrl = sp.get('businessId') || sp.get('bid') || sp.get('b');
+        const businessId = Number(getTenant?.() || formData.businessId || bidFromUrl || 1);
+        const resp = await fetch(`${API_BASE_URL}/qr/list?businessId=${encodeURIComponent(businessId)}&includePng=${withPng?1:0}`);
         const data = await resp.json();
-        if (!resp.ok) throw new Error(data.error || 'Failed to load existing QRs');
+        if (!resp.ok) {
+          const msg = `${data.error || 'Failed to load existing QRs'}${data.detail?`: ${data.detail}`:''}`;
+          throw new Error(msg);
+        }
         const sorted = (data.qrs||[]).slice().sort((a,b)=> parseInt((a.numeric_table||a.table_number)||0)-parseInt((b.numeric_table||b.table_number)||0));
         setQrResults(sorted);
         if (sorted.length) setIsGeneratedOnce(true);
@@ -73,13 +80,21 @@ export default function QRGenerationStep({ formData, updateFormData }) {
           if (!qrResults.some(q=> q.png)) await loadExisting(true);
           return;
         }
+        const sp = new URLSearchParams(window.location.search);
+        const bidFromUrl = sp.get('businessId') || sp.get('bid') || sp.get('b');
+        const businessId = Number(getTenant?.() || formData.businessId || bidFromUrl || 1);
+        const payload = { businessId, tables: toGenerate, includePng: true };
+        try { console.log('[QRGeneration] bulk-generate payload', payload, 'API:', API_BASE_URL); } catch(_) {}
         const resp = await fetch(`${API_BASE_URL}/qr/bulk-generate`, {
           method: 'POST',
           headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify({ businessId: 1, tables: toGenerate, includePng: true })
+          body: JSON.stringify(payload)
         });
         const data = await resp.json();
-        if (!resp.ok) throw new Error(data.error || 'Failed to bulk generate');
+        if (!resp.ok) {
+          const msg = `${data.error || 'Failed to bulk generate'}${data.detail?`: ${data.detail}`:''}${data.code?` [${data.code}]`:''}`;
+          throw new Error(msg);
+        }
         const merged = [...qrResults];
         for (const q of (data.qrs||[])) {
           const qKey = String(q.numeric_table||q.table_number);
@@ -97,7 +112,8 @@ export default function QRGenerationStep({ formData, updateFormData }) {
         });
         updateFormData({ tableConfiguration: enriched });
       } catch(e) {
-        console.error('generate failed', e); setError(e.message || 'Generation failed');
+        console.error('generate failed', e);
+        setError(e.message || 'Generation failed');
       } finally { setIsGenerating(false); }
     };
 
