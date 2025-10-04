@@ -4,6 +4,22 @@ import { API_BASE_URL } from '../../services/apiClient';
 import { getTenant } from '../../services/tenantContext';
 
 export default function QRGenerationStep({ formData, updateFormData }) {
+  const getEffectiveApiBase = () => {
+    try {
+      const u = new URL(API_BASE_URL);
+      const isAws = /execute-api\.[^/]+\.amazonaws\.com$/i.test(u.host);
+      const hasStage = /(\/dev\b|\/prod\b|\/stage\b)/i.test(u.pathname);
+      // API_BASE_URL should end with /api; if AWS and stage missing, force /dev/api
+      if (isAws && !hasStage) return `${u.origin}/dev/api`;
+      return API_BASE_URL.replace(/\/$/, '');
+    } catch(_) { return API_BASE_URL.replace(/\/$/, ''); }
+  };
+
+  const getJsonSafe = async (resp) => {
+    const ct = resp.headers.get('content-type') || '';
+    if (ct.includes('application/json')) { try { return await resp.json(); } catch(_) { return null; } }
+    try { return JSON.parse(await resp.text()); } catch { return null; }
+  };
   const [isGenerating, setIsGenerating] = useState(false);
   const [isGeneratedOnce, setIsGeneratedOnce] = useState(false); // ever generated or existing found
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,10 +45,12 @@ export default function QRGenerationStep({ formData, updateFormData }) {
         const sp = new URLSearchParams(window.location.search);
         const bidFromUrl = sp.get('businessId') || sp.get('bid') || sp.get('b');
         const businessId = Number(getTenant?.() || formData.businessId || bidFromUrl || 1);
-        const resp = await fetch(`${API_BASE_URL}/qr/list?businessId=${encodeURIComponent(businessId)}&includePng=${withPng?1:0}`);
-        const data = await resp.json();
+        const base = getEffectiveApiBase();
+        const resp = await fetch(`${base}/qr/list?businessId=${encodeURIComponent(businessId)}&includePng=${withPng?1:0}`);
+        const data = await getJsonSafe(resp);
         if (!resp.ok) {
-          const msg = `${data.error || 'Failed to load existing QRs'}${data.detail?`: ${data.detail}`:''}`;
+          const bodyText = data ? (data.error || data.message || JSON.stringify(data)) : (await resp.text().catch(()=>''));
+          const msg = `${bodyText || 'Failed to load existing QRs'} (HTTP ${resp.status})`;
           throw new Error(msg);
         }
         const sorted = (data.qrs||[]).slice().sort((a,b)=> parseInt((a.numeric_table||a.table_number)||0)-parseInt((b.numeric_table||b.table_number)||0));
@@ -84,15 +102,20 @@ export default function QRGenerationStep({ formData, updateFormData }) {
         const bidFromUrl = sp.get('businessId') || sp.get('bid') || sp.get('b');
         const businessId = Number(getTenant?.() || formData.businessId || bidFromUrl || 1);
         const payload = { businessId, tables: toGenerate, includePng: true };
-        try { console.log('[QRGeneration] bulk-generate payload', payload, 'API:', API_BASE_URL); } catch(_) {}
-        const resp = await fetch(`${API_BASE_URL}/qr/bulk-generate`, {
+        const base = getEffectiveApiBase();
+        try { console.log('[QRGeneration] bulk-generate payload', payload, 'API:', base); } catch(_) {}
+        const resp = await fetch(`${base}/qr/bulk-generate`, {
           method: 'POST',
           headers: { 'Content-Type':'application/json' },
           body: JSON.stringify(payload)
         });
-        const data = await resp.json();
+        const data = await getJsonSafe(resp);
         if (!resp.ok) {
-          const msg = `${data.error || 'Failed to bulk generate'}${data.detail?`: ${data.detail}`:''}${data.code?` [${data.code}]`:''}`;
+          let detail = '';
+          if (data) detail = `${data.error || data.message || ''}${data.detail?`: ${data.detail}`:''}${data.code?` [${data.code}]`:''}`.trim();
+          if (!detail) { try { detail = await resp.text(); } catch(_) { detail = ''; } }
+          const msg = `${detail || 'Failed to bulk generate'} (HTTP ${resp.status})`;
+          console.error('[QRGeneration] bulk-generate error', { status: resp.status, detail: msg });
           throw new Error(msg);
         }
         const merged = [...qrResults];

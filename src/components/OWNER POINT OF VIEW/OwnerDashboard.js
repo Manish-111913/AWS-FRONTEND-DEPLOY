@@ -42,6 +42,7 @@ const statusText = (table) => {
 
 export default function OwnerDashboard({ onModalChange }) {
   const [selectedTable, setSelectedTable] = useState(null);
+  // selectedTable will start as a light object from overview; we lazily enrich it with detailed data (orders, amount, payment status)
   const [showCounter, setShowCounter] = useState(false);
   const [showAllOrders, setShowAllOrders] = useState(false);
   const [tables, setTables] = useState([]);
@@ -54,6 +55,8 @@ export default function OwnerDashboard({ onModalChange }) {
   const [lastUpdated, setLastUpdated] = useState(null);
   const initialLoadRef = useRef(true);
   const [forceYellow, setForceYellow] = useState(false);
+  const [tableDetailsLoading, setTableDetailsLoading] = useState(false);
+  const tableDetailsRequestedRef = useRef(new Set()); // avoid duplicate fetches per table number per session
 
   // Lock background scroll when any modal/submodal is open
   useEffect(() => {
@@ -324,6 +327,80 @@ export default function OwnerDashboard({ onModalChange }) {
     return t;
   });
 
+  // Helper to parse table number from name like "Table 3"
+  const getTableNumber = (tbl) => {
+    if (!tbl) return null;
+    const m = String(tbl.name||'').match(/(\d+)/);
+    return m ? parseInt(m[1], 10) : null;
+  };
+
+  // Fetch detailed owner summary for a single table (uses /orders/owner-summary which includes items + amount)
+  const fetchTableDetails = async (tbl) => {
+    if (!tbl) return;
+    const num = getTableNumber(tbl);
+    if (!num) return;
+    // prevent refetching repeatedly unless user reopened (simple cache per session)
+    if (tableDetailsRequestedRef.current.has(num)) return;
+    tableDetailsRequestedRef.current.add(num);
+    setTableDetailsLoading(true);
+    try {
+      const res = await http.get('/orders/owner-summary');
+      if (res && res.success && res.data && Array.isArray(res.data.tables)) {
+        // owner-summary tables objects currently shaped: { name:"Table X", orders:[{item,quantity,price}], amount, status, semantic }
+        const found = res.data.tables.find(rt => {
+          const rn = getTableNumber(rt);
+            return rn === num;
+        });
+        if (found) {
+          const total = typeof found.amount === 'number' ? found.amount : (found.orders||[]).reduce((s,o)=>s + Number(o.quantity||0)*Number(o.price||0),0);
+          const paymentStatus = (found.semantic === 'green') ? 'Paid' : (found.orders && found.orders.length>0 ? 'Pending' : 'No Orders');
+          setSelectedTable(prev => prev ? ({ ...prev, orders: found.orders||[], amount: total, paymentStatus, detailsLoaded:true }) : prev);
+          // update revenue if endpoint provides it
+          if (res.data.todayRevenue !== undefined) setTotalRevenue(res.data.todayRevenue);
+        }
+      }
+    } catch (e) {
+      console.warn('[OwnerDashboard] fetchTableDetails error', e);
+    } finally {
+      setTableDetailsLoading(false);
+    }
+  };
+
+  // Lazy-load details whenever a table is selected and not yet enriched
+  useEffect(()=>{
+    if (selectedTable && !selectedTable.detailsLoaded) {
+      fetchTableDetails(selectedTable);
+    }
+  }, [selectedTable]);
+
+  // =============================================
+  // DEV SAMPLE DATA INJECTION (EASY TO REMOVE)
+  // Adds static demo orders ONLY for Table 4 and Table 7 so the popup shows
+  // realistic content without needing backend changes. Remove this entire
+  // useEffect block (between the DEV SAMPLE markers) for production.
+  useEffect(()=>{
+    if (!selectedTable || selectedTable.detailsLoaded) return;
+    const num = getTableNumber(selectedTable);
+    if (num && (num === 4 || num === 7)) {
+      setSelectedTable(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          orders: [
+            { item: 'Dosa', quantity: 2, price: 100 },
+            { item: 'Coffee', quantity: 2, price: 75 }
+          ],
+          amount: 350, // 2*100 + 2*75
+          paymentStatus: 'Paid via Card',
+          semantic: 'green', // ensure green status to mirror screenshot
+          detailsLoaded: true, // prevent fetch and reoverride
+          __DEV_SAMPLE: true
+        };
+      });
+    }
+  }, [selectedTable]);
+  // =============================================
+
   return (
     <div className="od-container">
       <header className="od-header">
@@ -460,35 +537,68 @@ export default function OwnerDashboard({ onModalChange }) {
       {/* Table Detail Modal */}
       {selectedTable && (
         <div className="od-modal-overlay" onClick={() => setSelectedTable(null)}>
-          <div className="od-modal" onClick={e => e.stopPropagation()}>
-            <header className="od-modal-header">
-              <h2>{selectedTable.name}</h2>
+          <div className="od-modal od-detail-modal" onClick={e => e.stopPropagation()}>
+            <header className="od-modal-header od-detail-header">
+              <h2 className="od-detail-title">{selectedTable.name} Details</h2>
               <button className="od-close-btn" onClick={() => setSelectedTable(null)}>×</button>
             </header>
-            <div className="od-modal-body">
-              <div className="od-table-detail">
-                <div className="od-detail-row">
-                  <span>Status:</span>
-                  <span style={{ color: tableColor(selectedTable) }}>
-                    {statusText(selectedTable)}
-                  </span>
-                </div>
-                {selectedTable.customerCount > 0 && (
-                  <div className="od-detail-row">
-                    <span>Customers:</span>
-                    <span>{selectedTable.customerCount}</span>
-                  </div>
+            <div className="od-detail-scroll">
+              {/* Current Orders Section */}
+              <div className="od-detail-section">
+                <h3 className="od-detail-section-title">Current Orders</h3>
+                {tableDetailsLoading && (
+                  <div className="od-detail-loading">Loading orders…</div>
                 )}
-                {selectedTable.amount > 0 && (
-                  <div className="od-detail-row">
-                    <span>Amount:</span>
-                    <span>${selectedTable.amount.toFixed(2)}</span>
+                {!tableDetailsLoading && (!selectedTable.orders || selectedTable.orders.length===0) && (
+                  <div className="od-detail-empty">No orders yet</div>
+                )}
+                {!tableDetailsLoading && selectedTable.orders && selectedTable.orders.length>0 && (
+                  <div className="od-detail-orders">
+                    {selectedTable.orders.map((o,idx)=>(
+                      <div key={idx} className="od-detail-order-row">
+                        <div className="od-detail-order-name">{o.item}</div>
+                        <div className="od-detail-order-meta">
+                          <span className="od-detail-qty">x{o.quantity}</span>
+                          <span className="od-detail-price">₹{Number(o.price||0) * Number(o.quantity||0)}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
-              {selectedTable.session_active && (
-                <OwnerDynamicTimer startTime={selectedTable.time} />
-              )}
+
+              {/* Payment Details */}
+              <div className="od-detail-section">
+                <h3 className="od-detail-section-title">Payment Details</h3>
+                <div className="od-detail-cards">
+                  <div className="od-detail-card">
+                    <div className="od-detail-card-label">Status:</div>
+                    <div className={`od-detail-card-value ${selectedTable.semantic==='green' ? 'paid' : ''}`}>
+                      {selectedTable.paymentStatus || (selectedTable.semantic==='green' ? 'Paid' : 'Pending')}
+                    </div>
+                  </div>
+                  <div className="od-detail-card">
+                    <div className="od-detail-card-label">Total:</div>
+                    <div className="od-detail-card-value total">₹{Number(selectedTable.amount||0).toFixed(0)}</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Time Spent */}
+              <div className="od-detail-section">
+                <h3 className="od-detail-section-title">Time Spent</h3>
+                <div className="od-detail-timer-wrapper">
+                  {selectedTable.session_active ? (
+                    <OwnerDynamicTimer startTime={selectedTable.time} />
+                  ) : (
+                    <div className="od-detail-empty" style={{margin:0}}>No active session</div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* Action bar (placeholder for future actions) */}
+            <div className="od-detail-actionbar">
+              <button className="od-detail-close-btn" onClick={()=>setSelectedTable(null)}>Close</button>
             </div>
           </div>
         </div>

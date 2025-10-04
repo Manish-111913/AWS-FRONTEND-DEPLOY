@@ -190,22 +190,6 @@ function App() {
               onForgotPassword={() => setScreen('forgot')}
               onSignUp={() => setScreen('signup')}
             />
-            <div style={{ position: 'fixed', top: '10px', right: '10px' }}>
-              <button
-                onClick={() => setScreen('api-test')}
-                style={{
-                  padding: '8px 16px',
-                  backgroundColor: '#2196f3',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: 'pointer',
-                  fontSize: '12px'
-                }}
-              >
-                🧪 Test AWS API
-              </button>
-            </div>
           </div>
         )}
         {screen === 'onboarding' && (

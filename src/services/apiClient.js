@@ -73,7 +73,7 @@ const requestThrottler = {
   }
 };
 
-// Normalize a base URL from env: trims, removes trailing slash, and ensures it ends with '/api'
+// Normalize a base URL from env or overrides: trims, removes trailing slash, and ensures it ends with '/api'
 // - If input is falsy/empty, returns undefined (so caller can apply a default)
 // - If input already ends with '/api' (case-insensitive), keep as-is (without trailing slash)
 // - If input contains '/api/' in the middle, leave unchanged to avoid breaking custom paths
@@ -95,6 +95,37 @@ function normalizeBase(input) {
   if (/\/api\//i.test(base)) return base; // custom path that includes '/api/'
   return `${base}/api`;
 }
+
+// Optional: allow overriding API base via URL/localStorage
+let OVERRIDE_API_BASE;
+try {
+  const sp = new URLSearchParams(window.location.search);
+  const fromUrl = sp.get('sessionsApiBase') || sp.get('apiBase');
+  if (fromUrl) {
+    let norm = fromUrl.replace(/\/$/, '');
+    // If targeting AWS API Gateway without a stage, default to /dev
+    try {
+      const u = new URL(norm);
+      const isAws = /execute-api\.[^/]+\.amazonaws\.com$/i.test(u.host);
+      const hasStage = /(\/dev\b|\/prod\b|\/stage\b)/i.test(u.pathname);
+      if (isAws && !hasStage) norm = `${u.origin}/dev`;
+    } catch(_) {}
+    try { localStorage.setItem('qr.apiBaseOverride', norm); } catch(_){}
+    OVERRIDE_API_BASE = normalizeBase(norm);
+  } else {
+    let fromLs = localStorage.getItem('qr.apiBaseOverride');
+    if (fromLs) {
+      // Apply same stage fix for stored value
+      try {
+        const u = new URL(fromLs);
+        const isAws = /execute-api\.[^/]+\.amazonaws\.com$/i.test(u.host);
+        const hasStage = /(\/dev\b|\/prod\b|\/stage\b)/i.test(u.pathname);
+        if (isAws && !hasStage) fromLs = `${u.origin}/dev`;
+      } catch(_) {}
+      OVERRIDE_API_BASE = normalizeBase(fromLs);
+    }
+  }
+} catch(_) {}
 
 // Helper function to categorize and format errors for user display
 export const categorizeError = (error) => {
@@ -156,7 +187,7 @@ export const categorizeError = (error) => {
 
 // Default to API Gateway dev stage with /api prefix
 // NOTE: If you promote to prod stage, set REACT_APP_API_URL accordingly or update the fallback.
-export const API_BASE_URL = normalizeBase(process.env.REACT_APP_API_URL) || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/dev/api';
+export const API_BASE_URL = OVERRIDE_API_BASE || normalizeBase(process.env.REACT_APP_API_URL) || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/dev/api';
 
 // Origin without the /api suffix (useful for static assets served at root)
 // Safe replacement to prevent "base" errors
