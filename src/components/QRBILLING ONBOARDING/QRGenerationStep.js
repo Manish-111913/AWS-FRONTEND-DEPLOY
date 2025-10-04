@@ -114,9 +114,28 @@ export default function QRGenerationStep({ formData, updateFormData }) {
           let detail = '';
           if (data) detail = `${data.error || data.message || ''}${data.detail?`: ${data.detail}`:''}${data.code?` [${data.code}]`:''}`.trim();
           if (!detail) { try { detail = await resp.text(); } catch(_) { detail = ''; } }
-          const msg = `${detail || 'Failed to bulk generate'} (HTTP ${resp.status})`;
-          console.error('[QRGeneration] bulk-generate error', { status: resp.status, detail: msg });
-          throw new Error(msg);
+          // If route not found (older backend), fallback to list+generateMissing to create missing rows.
+          if (resp.status === 404) {
+            try {
+              const qs = new URLSearchParams({ businessId: String(businessId), generateMissing: '1', tables: toGenerate.join(','), includePng: '1' });
+              const ensure = await fetch(`${base}/qr/list?${qs.toString()}`);
+              const ensureData = await getJsonSafe(ensure);
+              if (!ensure.ok) {
+                const emsg = ensureData?.error || ensureData?.message || `Fallback failed (HTTP ${ensure.status})`;
+                throw new Error(emsg);
+              }
+              // Success: refresh list and return
+              await loadExisting(true);
+              return;
+            } catch(fbErr) {
+              const msg = `Route not found; fallback failed: ${fbErr.message}`;
+              throw new Error(msg);
+            }
+          } else {
+            const msg = `${detail || 'Failed to bulk generate'} (HTTP ${resp.status})`;
+            console.error('[QRGeneration] bulk-generate error', { status: resp.status, detail: msg });
+            throw new Error(msg);
+          }
         }
         const merged = [...qrResults];
         for (const q of (data.qrs||[])) {
