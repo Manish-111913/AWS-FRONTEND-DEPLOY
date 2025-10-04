@@ -191,7 +191,7 @@ export default function OwnerDashboard({ onModalChange }) {
         }
 
         if (overview && Array.isArray(overview.tables)) {
-          try { console.log('[OwnerDashboard] sessions overview', overview.tables.map(t=>({table:t.table_number,color:t.color,reason:t.reason,orders:t.orders_count})) ); } catch(_){ }
+          try { console.log('[OwnerDashboard] sessions overview', overview.tables.map(t=>({table:t.table_number,color:t.color,reason:t.reason,orders:t.orders_count,total: t.total_amount, paid: t.all_paid || (String(t.modern_payment_status||'').toLowerCase()==='paid')})) ); } catch(_){ }
           const mapped = overview.tables
             .map((t, idx) => {
               const semantic = t.color || 'ash'; // ash|yellow|green from server
@@ -228,7 +228,8 @@ export default function OwnerDashboard({ onModalChange }) {
                 orders: [],
                 customerCount: ordersCount > 0 ? 1 : 0,
                 ordersCount,
-                allPaid
+                allPaid,
+                modernPaymentStatus: t.modern_payment_status || null
               };
             });
           setTables(mapped);
@@ -251,7 +252,7 @@ export default function OwnerDashboard({ onModalChange }) {
           let fetchErr = null;
           try { res = await http.get(primaryPath); } catch(e) { fetchErr = e; }
           if (res && Array.isArray(res.tables)) {
-            try { console.log('[OwnerDashboard] by-table result (fallback)', res.tables.map(t=>({table:t.table_number,color:t.color,reason:t.colorReason,orders_count:t.orders_count,unpaid:t.unpaid_count}))); } catch(_) {}
+            try { console.log('[OwnerDashboard] by-table result (fallback)', res.tables.map(t=>({table:t.table_number,color:t.color,reason:t.colorReason,orders_count:t.orders_count,unpaid:t.unpaid_count, total: t.total_amount || t.sum_total || t.amount}))); } catch(_) {}
             const mapped = res.tables
               .map((t, idx) => {
                 let semantic = t.color; // ash|yellow|green
@@ -312,6 +313,9 @@ export default function OwnerDashboard({ onModalChange }) {
   // Fallback: if eat-first model and backend hasn't yet assigned semantic but session_active is true, treat as yellow
   // If forceYellow=true via URL, apply for both models
   const normalizedTables = tables.map(t => {
+    // If paid, force green regardless of model (per product expectation: yellow after scan, green after payment)
+    const isPaid = t.allPaid || String(t.modernPaymentStatus||'').toLowerCase()==='paid';
+    if (isPaid) return { ...t, semantic: 'green' };
     if ((model === 'eat-first' || forceYellow) && t.session_active) {
       // Force immediate yellow when session is active but payment not completed
       if (t.allPaid && (t.ordersCount||0) > 0) return { ...t, semantic: 'green' };
