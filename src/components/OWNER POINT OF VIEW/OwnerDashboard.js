@@ -216,13 +216,14 @@ export default function OwnerDashboard({ onModalChange }) {
                   }
                 }
               } catch(_) {}
+              const amount = Number(t.total_amount || 0);
               return {
                 id: t.qr_code_id || t.session_id || (idx + 1),
                 name: `Table ${t.table_number}`,
                 status: legacy,
                 semantic,
                 session_active: sessionActive,
-                amount: 0,
+                amount,
                 time: timeLabel,
                 orders: [],
                 customerCount: ordersCount > 0 ? 1 : 0,
@@ -231,6 +232,15 @@ export default function OwnerDashboard({ onModalChange }) {
               };
             });
           setTables(mapped);
+          // Total Revenue: sum of amounts for paid tables (modern paid or legacy allPaid)
+          try {
+            const revenue = mapped.reduce((sum, t) => {
+              // Consider revenue when table is green or explicitly allPaid
+              const isPaid = (t.semantic === 'green') || t.allPaid;
+              return isPaid ? (sum + (Number(t.amount) || 0)) : sum;
+            }, 0);
+            setTotalRevenue(revenue);
+          } catch(_) {}
           setError(null);
           setLastUpdated(new Date());
         } else {
@@ -251,19 +261,24 @@ export default function OwnerDashboard({ onModalChange }) {
                 let legacy = 'empty';
                 if (semantic === 'yellow') legacy = 'cash';
                 if (semantic === 'green') legacy = 'paid';
+                const amount = Number(t.total_amount || t.sum_total || t.amount || 0);
                 return {
                   id: t.qr_code_id || idx + 1,
                   name: `Table ${t.table_number}`,
                   status: legacy,
                   semantic,
                   session_active: !!t.session_id,
-                  amount: 0,
+                  amount,
                   time: '0m',
                   orders: [],
                   customerCount: t.orders_count > 0 ? 1 : 0
                 };
               });
             setTables(mapped);
+            try {
+              const revenue = mapped.reduce((sum, t) => (t.semantic === 'green' ? sum + (Number(t.amount)||0) : sum), 0);
+              setTotalRevenue(revenue);
+            } catch(_) {}
             setError(null);
             setLastUpdated(new Date());
           } else if (overviewErr) {
