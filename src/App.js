@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import InventoryOverview from './components/InventoryOverview';
 import Abc from './components/abc';
@@ -48,6 +48,7 @@ import WastageThresholds from './components/WastageThresholds';
 function App() {
   const [screen, setScreen] = useState('login');
   const [currentUser, setCurrentUser] = useState(null);
+  const ensuredRef = useRef(false);
   // Track where the unit mapping flow was opened from: 'onboarding' | 'settings' | null
   const [mappingOrigin, setMappingOrigin] = useState(null);
   // Vendor selection state for CreateReorder workflow
@@ -102,6 +103,40 @@ function App() {
     };
 
     checkDB();
+  }, []);
+
+  // Ensure dining session when landing with table & businessId in the URL.
+  // This lets the Amplify site create an active session on the same backend the dashboards use (Render by default).
+  useEffect(() => {
+    try {
+      if (ensuredRef.current) return;
+      const sp = new URLSearchParams(window.location.search);
+      const table = sp.get('table') || sp.get('t');
+      const bid = sp.get('businessId') || sp.get('bid') || sp.get('b');
+      const sessionsBaseParam = sp.get('sessionsApiBase') || sp.get('apiBase');
+      if (sessionsBaseParam) {
+        try { localStorage.setItem('qr.sessionsApiBaseOverride', sessionsBaseParam.replace(/\/$/, '')); } catch(_) {}
+        try { localStorage.setItem('qr.apiBaseOverride', sessionsBaseParam.replace(/\/$/, '')); } catch(_) {}
+      }
+      if (!table || !bid) return;
+      ensuredRef.current = true;
+      const sessionsBase = (sessionsBaseParam
+        || localStorage.getItem('qr.sessionsApiBaseOverride')
+        || localStorage.getItem('qr.apiBaseOverride')
+        || process.env.REACT_APP_SESSIONS_API_BASE
+        || process.env.REACT_APP_API_URL
+        || '').replace(/\/$/, '');
+      if (!sessionsBase) return;
+      const url = `${sessionsBase}/api/qr/ensure-session`;
+      const body = { businessId: Number(bid), tableNumber: String(table).trim() };
+      fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(async (r) => {
+          const data = await r.json().catch(() => null);
+          if (!r.ok) throw new Error((data && (data.error||data.message)) || `HTTP ${r.status}`);
+          console.log('[AMPLIFY][ENSURE_SESSION] ok', data);
+        })
+        .catch((e) => console.warn('[AMPLIFY][ENSURE_SESSION] failed', e?.message || e));
+    } catch(_) {}
   }, []);
 
   // State for vendor category filtering
