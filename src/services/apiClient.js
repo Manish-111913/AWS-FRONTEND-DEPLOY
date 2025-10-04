@@ -154,21 +154,22 @@ export const categorizeError = (error) => {
   }
 };
 
-// Default to local API with /api prefix (backend runs on 5001 by default)
-export const API_BASE_URL = normalizeBase(process.env.REACT_APP_API_URL) || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/api';
+// Default to API Gateway dev stage with /api prefix
+// NOTE: If you promote to prod stage, set REACT_APP_API_URL accordingly or update the fallback.
+export const API_BASE_URL = normalizeBase(process.env.REACT_APP_API_URL) || 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/dev/api';
 
 // Origin without the /api suffix (useful for static assets served at root)
 // Safe replacement to prevent "base" errors
 const calculateOrigin = (baseUrl) => {
   if (!baseUrl || typeof baseUrl !== 'string') {
-    return 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com';
+    return 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/dev';
   }
   
   const result = baseUrl.replace(/\/?api$/i, '');
   
   // If the result is empty, too short, or just "base", use the fallback
   if (!result || result.length < 8 || result === 'base') {
-    return 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com';
+    return 'https://ofsmmmkot9.execute-api.ap-south-1.amazonaws.com/dev';
   }
   
   return result;
